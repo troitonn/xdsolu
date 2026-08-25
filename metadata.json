@@ -1,0 +1,6 @@
+{
+  "name": "XD Capital",
+  "description": "Hub financeiro corporativo com soluções de crédito estruturado, pagamentos, antecipação e gestão de caixa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
