@@ -1,4 +1,3 @@
-```tsx
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -317,6 +316,5 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
       </div>
     </footer>
-  );
 };
 ```
