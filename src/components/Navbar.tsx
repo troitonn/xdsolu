@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowUpRight, Lock, ExternalLink, Globe, Check } from 'lucide-react';
 import { useLanguage, Language } from '../context/LanguageContext';
 import { AppView } from '../App';
+import { Link } from 'react-router-dom';
+import xdLogo from '../assets/images/xd-logo.png';
 
 interface NavbarProps {
   onOpenContact: (subject?: string) => void;
@@ -85,24 +87,17 @@ export const Navbar: React.FC<NavbarProps> = ({
       >
         <div className="max-w-[1240px] mx-auto px-6 flex items-center justify-between">
           {/* Logo XD Capital */}
-          <button
-            onClick={onNavigateHome}
-            id="brand-logo"
-            className="group flex flex-col items-start select-none outline-none focus-visible:ring-2 focus-visible:ring-[#A3192E] text-left cursor-pointer"
-            aria-label="XD Capital - Início"
-          >
-            <div className="flex items-center tracking-tight leading-none">
-              <span className="text-[23px] text-[#0B0F19] tracking-[-0.04em]">
-                X<span className="text-[#A3192E] transition-colors duration-300 group-hover:text-[#8A1224]">D</span>
-              </span>
-              <span className="ml-1.5 text-[20px] tracking-[0.1em] text-[#0B0F19]">
-                CAPITAL
-              </span>
-            </div>
-            <span className="text-[8.5px] uppercase tracking-[0.32em] text-[#A3192E] mt-0.5 group-hover:text-[#8A1224] transition-colors">
-              {language === 'en' ? 'FINANCIAL SOLUTIONS' : (language === 'es' ? 'SOLUCIONES FINANCIERAS' : 'SOLUÇÕES FINANCEIRAS')}
-            </span>
-          </button>
+        <Link
+          to="/"
+          aria-label="XD Capital - Início"
+          className="flex items-center"
+        >
+          <img
+            src={xdLogo}
+            alt="XD Capital"
+            className="h-10 w-auto object-contain"
+          />
+        </Link>
 
           {/* Center Links (Desktop - Reorganizado: Soluções, Folha & Consignado, Sobre a XD, XD Pay) */}
           <nav className="hidden md:flex items-center gap-7 lg:gap-8" aria-label="Navegação Principal">
