@@ -315,6 +315,8 @@ export const Footer: React.FC<FooterProps> = ({
           </p>
         </div>
       </div>
-    </footer>
+       </footer>
+  );
 };
-```
+
+export default Footer;
