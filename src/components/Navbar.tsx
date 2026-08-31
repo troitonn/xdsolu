@@ -11,6 +11,7 @@ import {
 import { useLanguage, Language } from '../context/LanguageContext';
 import { AppView } from '../App';
 import xdLogo from '../assets/images/xd-logo.png';
+import xdPayLogo from '../assets/images/xdpay-logo.png';
 
 interface NavbarProps {
   onOpenContact: (subject?: string) => void;
@@ -49,6 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     };
   }, []);
 
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -84,6 +86,38 @@ export const Navbar: React.FC<NavbarProps> = ({
     setLanguage(lang);
     setLangMenuOpen(false);
   };
+
+const [isXdPaySection, setIsXdPaySection] = useState(false);
+
+  useEffect(() => {
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+
+    setIsScrolled(scrollY > 40);
+
+    const xdPaySection = document.getElementById('xd-pay');
+
+    if (xdPaySection) {
+      const rect = xdPaySection.getBoundingClientRect();
+
+      // Considera XD Pay ativa quando o topo da seção
+      // já entrou na região superior da tela.
+      const isInside =
+        rect.top <= 120 &&
+        rect.bottom >= 120;
+
+      setIsXdPaySection(isInside);
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  handleScroll();
+
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
 
   const navItems = [
     {
@@ -121,17 +155,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="max-w-[1240px] mx-auto px-6 flex items-center justify-between">
 
           {/* Logo XD Capital */}
+      
           <button
             onClick={onNavigateHome}
             id="brand-logo"
             className="group flex items-center select-none outline-none focus-visible:ring-2 focus-visible:ring-[#A3192E] rounded-md cursor-pointer"
-            aria-label="XD Capital - Início"
+            aria-label={isXdPaySection ? 'XD Pay' : 'XD Capital - Início'}
           >
-          <img
-            src={xdLogo}
-            alt="XD Capital"
-            className="h-10 md:h-11 w-auto object-contain"
-          />
+            <img
+              src={isXdPaySection ? xdPayLogo : xdLogo}
+              alt={isXdPaySection ? 'XD Pay' : 'XD Capital'}
+              className="h-10 md:h-11 w-auto object-contain transition-opacity duration-200"
+            />
           </button>
 
           {/* Center Links */}
