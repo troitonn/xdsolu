@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useLanguage, Language } from '../context/LanguageContext';
 import { AppView } from '../App';
+import xdLogo from '../assets/images/xd-logo.png';
 
 interface NavbarProps {
   onOpenContact: (subject?: string) => void;
@@ -126,11 +127,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="group flex items-center select-none outline-none focus-visible:ring-2 focus-visible:ring-[#A3192E] rounded-md cursor-pointer"
             aria-label="XD Capital - Início"
           >
-            <img
-              src="/src/assets/images/xd-logo.png"
-              alt="XD Capital"
-              className="h-10 md:h-11 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"
-            />
+          <img
+            src={xdLogo}
+            alt="XD Capital"
+            className="h-10 md:h-11 w-auto object-contain"
+          />
           </button>
 
           {/* Center Links */}
