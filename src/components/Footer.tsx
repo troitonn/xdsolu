@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { AppView } from '../App';
+import xdLogo from '../assets/images/xd-logo.png';
 
 interface FooterProps {
   onSelectSolution: (id: string) => void;
@@ -23,18 +24,20 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16">
           {/* Col 1: Brand & Bio (Span 5) */}
           <div className="lg:col-span-5 flex flex-col items-start pr-0 lg:pr-8">
-            <a href="#" className="group flex flex-col items-start mb-5" aria-label="XD Capital">
-              <div className="flex items-center tracking-tight leading-none">
-                <span className="text-[24px] text-[#0B0F19] tracking-[-0.04em]">
-                  X<span className="text-[#A3192E]">D</span>
-                </span>
-                <span className="ml-1.5 text-[21px] tracking-[0.1em] text-[#0B0F19]">
-                  CAPITAL
-                </span>
-              </div>
-              <span className="text-[9px] uppercase tracking-[0.32em] text-[#A3192E] mt-1">
-                {isEn ? 'FINANCIAL SOLUTIONS' : (isEs ? 'SOLUCIONES FINANCIERAS' : 'SOLUÇÕES FINANCEIRAS')}
-              </span>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center"
+              aria-label="XD Capital - Início"
+            >
+              <img
+                src={xdLogo}
+                alt="XD Capital"
+                className="h-12 w-auto object-contain"
+              />
             </a>
 
             <p className="text-[14.5px] leading-relaxed text-slate-600 mb-6 max-w-[400px]">
