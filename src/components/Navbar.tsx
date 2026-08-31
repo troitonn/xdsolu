@@ -281,17 +281,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
 
             {/* Abrir minha Conta */}
-            <button
+            <a
               id="btn-open-account-nav"
               href={INTERNET_BANKING_URL}
-              className="btn-primary text-[13.5px] !py-2.5 !px-5.5 cursor-pointer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary text-[13.5px] !py-2.5 !px-5.5 cursor-pointer flex items-center gap-1.5"
             >
               <span>
                 {t('nav.openAccount') || 'Abrir minha Conta'}
               </span>
-
+            
               <ArrowUpRight className="w-4 h-4 text-white/90" />
-            </button>
+            </a>
           </div>
 
           {/* Mobile Actions */}
