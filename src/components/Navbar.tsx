@@ -283,7 +283,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Abrir minha Conta */}
             <button
               id="btn-open-account-nav"
-              onClick={onOpenOpenAccount}
+              href={INTERNET_BANKING_URL}
               className="btn-primary text-[13.5px] !py-2.5 !px-5.5 cursor-pointer"
             >
               <span>
