@@ -128,6 +128,27 @@ export const SOLUTIONS_DATA_BY_LANG: Record<Language, SolutionTab[]> = {
           tag: 'Setor Privado'
         }
       ]
+    },
+    {
+      id: 'caas',
+      number: '07',
+      tabLabel: 'CaaS',
+      tabSub: 'Credit as a Service',
+      title: 'Sua empresa oferecendo crédito com infraestrutura completa.',
+      description: 'Infraestrutura tecnológica e regulatória plug-and-play para empresas e plataformas emitirem e gerenciarem produtos de crédito com marca própria via APIs.',
+      pills: ['Crédito White-label', 'Integração via APIs REST', 'Esteira Regulatória Completa'],
+      subcards: [
+        {
+          title: 'Emissão e Gestão White-label',
+          description: 'Personalize a experiência do seu cliente com regras de crédito próprias, onboarding digital e formalização automatizada.',
+          tag: 'White-label'
+        },
+        {
+          title: 'APIs e Compliance Regulatório',
+          description: 'Conecte-se aos nossos motores de análise de risco, prevenção a fraudes e liquidação financeira homologada pelo Banco Central.',
+          tag: 'Infraestrutura & APIs'
+        }
+      ]
     }
   ],
   en: [
@@ -256,6 +277,27 @@ export const SOLUTIONS_DATA_BY_LANG: Record<Language, SolutionTab[]> = {
           tag: 'Private Sector'
         }
       ]
+    },
+    {
+      id: 'caas',
+      number: '07',
+      tabLabel: 'CaaS',
+      tabSub: 'Credit as a Service',
+      title: 'Empower your platform with end-to-end credit infrastructure.',
+      description: 'Plug-and-play technological and regulatory infrastructure enabling enterprises and platforms to issue, underwrite, and manage branded credit products via robust APIs.',
+      pills: ['White-label Credit', 'RESTful API Integration', 'Regulatory & Compliance Suite'],
+      subcards: [
+        {
+          title: 'White-label Issuance & Management',
+          description: 'Deliver a native customer experience with customizable underwriting rules, digital onboarding, and automated contract execution.',
+          tag: 'White-label'
+        },
+        {
+          title: 'APIs & Regulatory Infrastructure',
+          description: 'Seamlessly connect to our risk evaluation engines, fraud prevention systems, and Central Bank regulated settlement rails.',
+          tag: 'APIs & Infrastructure'
+        }
+      ]
     }
   ],
   es: [
@@ -382,6 +424,27 @@ export const SOLUTIONS_DATA_BY_LANG: Record<Language, SolutionTab[]> = {
           title: 'Beneficio Privado para Empleados',
           description: 'Bienestar financiero para retención de talentos sin costo ni riesgo para el empleador.',
           tag: 'Sector Privado'
+        }
+      ]
+    },
+    {
+      id: 'caas',
+      number: '07',
+      tabLabel: 'CaaS',
+      tabSub: 'Credit as a Service',
+      title: 'Su empresa ofreciendo crédito con infraestructura integral.',
+      description: 'Infraestructura tecnológica y regulatoria llave en mano para que empresas y plataformas emitan y gestionen productos de crédito con marca propia mediante APIs.',
+      pills: ['Crédito White-label', 'Integración por APIs REST', 'Cumplimiento Regulatorio'],
+      subcards: [
+        {
+          title: 'Emisión y Gestión White-label',
+          description: 'Personalice la experiencia de sus clientes con reglas de crédito a medida, alta 100% digital y contratos automatizados.',
+          tag: 'Marca Blanca'
+        },
+        {
+          title: 'APIs e Infraestructura Regulatoria',
+          description: 'Conéctese a nuestros motores de riesgo, prevención de fraude y liquidación supervisada por el Banco Central.',
+          tag: 'Infraestructura y APIs'
         }
       ]
     }
@@ -635,6 +698,14 @@ export const FAQ_DATA_BY_LANG: Record<Language, FaqItem[]> = {
     {
       question: 'Como funciona a integração com o meu ERP?',
       answer: 'Disponibilizamos APIs RESTful de alta performance e suporte aos padrões CNAB 240/400 para envio de remessas e leitura de retornos de pagamento, cobrança e conciliação bancária automática com os principais sistemas de gestão do mercado (TOTVS, SAP, Omie, ContaAzul, Sankhya, etc).'
+    },
+    {
+      question: 'Como funciona a solução de CaaS (Credit as a Service)?',
+      answer: 'Com a solução CaaS da XD Capital, sua empresa pode oferecer empréstimos, financiamentos e crédito consignado sob sua própria marca (white-label). Cuidamos de toda a infraestrutura regulatória, esteira de risco e liquidação via APIs simples de integrar.'
+    },
+    {
+      question: 'Posso antecipar recebíveis de contratos privados ou cartões?',
+      answer: 'Sim. Além da especialidade em empenhos públicos, realizamos antecipação de recebíveis de duplicatas mercantis privadas, cartões de crédito e contratos corporativos com taxas competitivas e liquidação rápida em conta PJ.'
     }
   ],
   en: [
@@ -661,6 +732,14 @@ export const FAQ_DATA_BY_LANG: Record<Language, FaqItem[]> = {
     {
       question: 'How does ERP integration work?',
       answer: 'We provide high-performance RESTful APIs and standard banking file formats (CNAB 240/400) for batch payouts, dynamic invoicing, and automated bank reconciliation with leading ERP systems (SAP, TOTVS, Omie, ContaAzul, etc.).'
+    },
+    {
+      question: 'How does Credit as a Service (CaaS) work?',
+      answer: 'With XD Capital’s CaaS solution, your company can launch and manage proprietary white-label credit and lending products. We provide the complete regulatory rail, underwriting engine, and settlement infrastructure via plug-and-play APIs.'
+    },
+    {
+      question: 'Can I advance private contracts and card receivables?',
+      answer: 'Yes. In addition to public sector contracts, we advance private trade bills, credit card transactions, and commercial contracts with competitive rates and same-day settlement into your corporate account.'
     }
   ],
   es: [
@@ -687,6 +766,14 @@ export const FAQ_DATA_BY_LANG: Record<Language, FaqItem[]> = {
     {
       question: '¿Cómo funciona la integración con mi sistema ERP?',
       answer: 'Ofrecemos APIs RESTful de alto rendimiento y formatos bancarios estándar (CNAB 240/400) para pagos masivos, cobranzas con QR y conciliación bancaria automática con los principales ERPs del mercado.'
+    },
+    {
+      question: '¿Cómo funciona la solución de CaaS (Credit as a Service)?',
+      answer: 'Con la solución CaaS de XD Capital, su empresa puede ofrecer préstamos y productos crediticios bajo su propia marca blanca (white-label), con respaldo regulatorio e integración directa mediante APIs.'
+    },
+    {
+      question: '¿Puedo anticipar cuentas por cobrar privadas o cobros de tarjetas?',
+      answer: 'Sí. Además de contratos públicos, realizamos anticipo de facturas comerciales privadas, cuentas por cobrar de tarjetas y pagarés empresariales con liquidación ágil en cuenta bancaria.'
     }
   ]
 };

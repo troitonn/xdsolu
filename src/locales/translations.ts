@@ -7,12 +7,16 @@ export interface LocalizedContent {
 export const translations: Record<Language, LocalizedContent> = {
   pt: {
     // Nav
+    'nav.contaDigital': 'Conta Digital',
+    'nav.credito': 'Crédito',
+    'nav.maquininha': 'Maquininha',
+    'nav.quemSomos': 'Quem somos',
     'nav.solutions': 'Soluções',
     'nav.payroll': 'Folha & Consignado',
-    'nav.about': 'Sobre a XD',
-    'nav.xdpay': 'XD Pay',
-    'nav.accessAccount': 'Acesse sua conta',
-    'nav.openAccount': 'Abrir conta de pagamento',
+    'nav.about': 'Quem somos',
+    'nav.xdpay': 'Maquininha',
+    'nav.accessAccount': 'Acesse sua Conta',
+    'nav.openAccount': 'Abrir minha Conta',
     'nav.contact': 'Fale com a gente',
     'nav.backHome': 'Voltar para a página inicial',
     
@@ -38,12 +42,28 @@ export const translations: Record<Language, LocalizedContent> = {
     'stats.bacen.num': '100%',
     'stats.bacen.label': 'das operações liquidadas via Bacen',
 
-    // Solutions
-    'solutions.eyebrow': 'PLATAFORMA INTEGRADA',
-    'solutions.title': 'Soluções estruturadas para cada desafio de liquidez.',
-    'solutions.subtitle': 'Conectamos sua empresa a instrumentos modernos de crédito, meios de pagamento e tesouraria com segurança jurídica e taxas altamente competitivas.',
-    'solutions.cta': 'Estruturar esta solução',
+    // Solutions / Conta Digital
+    'solutions.eyebrow': 'CONTA DIGITAL',
+    'solutions.title': 'Conta digital feita para simplificar.',
+    'solutions.subtitle': 'Tudo o que você precisa para ter mais controle e clareza.',
+    'solutions.cta': 'Fale com a gente',
     'solutions.learnMore': 'Conhecer mais detalhes',
+    'solutions.feature.cartao.title': 'Cartão de Crédito',
+    'solutions.feature.cartao.desc': 'Cartão corporativo físico e virtual com limite flexível e gestão em tempo real.',
+    'solutions.feature.pix.title': 'Pix',
+    'solutions.feature.pix.desc': 'Transferências e recebimentos instantâneos 24/7 com chaves e QR Code dinâmico.',
+    'solutions.feature.ted.title': 'TED',
+    'solutions.feature.ted.desc': 'Transferências bancárias pontuais e em lote para qualquer instituição do país.',
+    'solutions.feature.cobrancas.title': 'Gestão de cobranças',
+    'solutions.feature.cobrancas.desc': 'Controle de inadimplência, réguas automáticas e conciliação bancária completa.',
+    'solutions.feature.boletos.title': 'Emissão de boletos',
+    'solutions.feature.boletos.desc': 'Emissão simplificada de boletos registrados e boletos híbridos com Pix integrado.',
+    'solutions.feature.tributos.title': 'Pagamento de contas e tributos',
+    'solutions.feature.tributos.desc': 'Liquidação de guias (DARF, GPS, FGTS), concessionárias e impostos sem filas.',
+    'solutions.feature.maquininha.title': 'Maquininha',
+    'solutions.feature.maquininha.desc': 'Aceite pagamentos de qualquer forma, em qualquer lugar, sem complicação.',
+    'solutions.feature.link.title': 'Link de Pagamento',
+    'solutions.feature.link.desc': 'Venda online por redes sociais e WhatsApp com total segurança e antifraude.',
 
     // Segments
     'segments.eyebrow': 'ECOSSISTEMA & MERCADOS',
@@ -74,7 +94,6 @@ export const translations: Record<Language, LocalizedContent> = {
     'payroll.subtitle': 'Soluções completas para prefeituras, órgãos estaduais, autarquias federais e departamentos de Recursos Humanos de empresas privadas.',
     'payroll.tabPublic': 'Consignado Servidor Público',
     'payroll.tabPrivate': 'Consignado Privado CLT',
-    'payroll.btnSimulate': 'Simular Consignado',
     'payroll.btnPartnership': 'Firmar Convênio Corporativo',
 
     // XD Pay
@@ -96,6 +115,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'cta.eyebrow': 'PRÓXIMO PASSO',
     'cta.title': 'Pronto para destravar o fluxo financeiro da sua empresa?',
     'cta.subtitle': 'Fale diretamente com nossa mesa de crédito corporativo e receba uma análise preliminar em até 24 horas úteis.',
+    'cta.button': 'Fale com nossa mesa de crédito',
     'cta.btnPrimary': 'Iniciar atendimento especializado',
     'cta.btnSecondary': 'Abrir conta de pagamento PJ',
 
@@ -103,7 +123,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'footer.desc': 'A XD Capital é um hub de inteligência e intermediação financeira que atua como correspondente bancário para conectar empresas a crédito estruturado, meios de pagamento e tesouraria eficiente.',
     'footer.solutions': 'Soluções',
     'footer.institutional': 'Institucional',
-    'footer.legal': 'Jurídico & Compliance',
+    'footer.legal': 'Políticas',
     'footer.contact': 'Atendimento',
     'footer.rights': 'Todos os direitos reservados.',
     'footer.regulatoryNotice': 'A XD Capital Serviço de Intermediação Financeira Ltda. (CNPJ 55.038.166/0001-99) atua como correspondente bancário nos termos das Resoluções CMN nº 3.954/2011, nº 4.935/2021 e Resolução Conjunta BCB/CMN nº 16 e 17/2025. Não somos uma instituição financeira autorizada a operar diretamente pelo Banco Central; as contas de pagamento e liquidações são operadas por parceiros regulados autorizados.',
@@ -112,7 +132,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'footer.terms': 'Termos de Uso',
     'footer.lgpd': 'Portal de Privacidade (LGPD)',
     'footer.ouvidoria': 'Ouvidoria Corporativa',
-    'footer.pldft': 'Prevenção à Lavagem de Dinheiro (PLD/FT)',
+    'footer.pldft': 'PLD/FT',
     'footer.sp': 'Sede: São Paulo / SP - Brasil',
 
     // Subpages General
@@ -170,12 +190,16 @@ export const translations: Record<Language, LocalizedContent> = {
   },
   en: {
     // Nav
+    'nav.contaDigital': 'Digital Account',
+    'nav.credito': 'Credit',
+    'nav.maquininha': 'Card Terminal',
+    'nav.quemSomos': 'About Us',
     'nav.solutions': 'Solutions',
     'nav.payroll': 'Payroll & Consignment',
-    'nav.about': 'About XD',
-    'nav.xdpay': 'XD Pay',
-    'nav.accessAccount': 'Client Area',
-    'nav.openAccount': 'Open payment account',
+    'nav.about': 'About Us',
+    'nav.xdpay': 'Card Terminal',
+    'nav.accessAccount': 'Access your Account',
+    'nav.openAccount': 'Open my Account',
     'nav.contact': 'Contact Us',
     'nav.backHome': 'Back to homepage',
     
@@ -201,12 +225,28 @@ export const translations: Record<Language, LocalizedContent> = {
     'stats.bacen.num': '100%',
     'stats.bacen.label': 'cleared through Central Bank network',
 
-    // Solutions
-    'solutions.eyebrow': 'INTEGRATED PLATFORM',
-    'solutions.title': 'Structured solutions for every corporate liquidity challenge.',
-    'solutions.subtitle': 'We connect your company to modern credit instruments, payment terminals, and corporate treasury with full legal compliance and competitive rates.',
-    'solutions.cta': 'Structure this solution',
+    // Solutions / Digital Account
+    'solutions.eyebrow': 'DIGITAL ACCOUNT',
+    'solutions.title': 'Digital account built to simplify.',
+    'solutions.subtitle': 'Everything you need for greater control and clarity.',
+    'solutions.cta': 'Contact our team',
     'solutions.learnMore': 'Learn more details',
+    'solutions.feature.cartao.title': 'Credit Card',
+    'solutions.feature.cartao.desc': 'Physical and virtual corporate card with flexible limits and real-time management.',
+    'solutions.feature.pix.title': 'Pix',
+    'solutions.feature.pix.desc': 'Instant transfers and settlements 24/7 with keys and dynamic QR Codes.',
+    'solutions.feature.ted.title': 'TED',
+    'solutions.feature.ted.desc': 'Individual and batch wire transfers to any banking institution in Brazil.',
+    'solutions.feature.cobrancas.title': 'Billing Management',
+    'solutions.feature.cobrancas.desc': 'Automated collection workflows, overdue tracking, and full bank reconciliation.',
+    'solutions.feature.boletos.title': 'Bank Slip Invoicing',
+    'solutions.feature.boletos.desc': 'Seamless registered invoices and hybrid bank slips with integrated Pix QR Code.',
+    'solutions.feature.tributos.title': 'Bill & Tax Payments',
+    'solutions.feature.tributos.desc': 'Direct settlement of utility bills, corporate taxes (DARF, GPS, FGTS) and fees.',
+    'solutions.feature.maquininha.title': 'Card Terminal (POS)',
+    'solutions.feature.maquininha.desc': 'Accept payments in any form, anywhere, without friction.',
+    'solutions.feature.link.title': 'Payment Link',
+    'solutions.feature.link.desc': 'Sell online via social channels and WhatsApp with antifraud protection.',
 
     // Segments
     'segments.eyebrow': 'ECOSYSTEM & MARKETS',
@@ -237,7 +277,6 @@ export const translations: Record<Language, LocalizedContent> = {
     'payroll.subtitle': 'Comprehensive financial solutions for municipal and state governments, federal agencies, and corporate HR departments.',
     'payroll.tabPublic': 'Public Servant Consignment',
     'payroll.tabPrivate': 'Private Sector Payroll Loan',
-    'payroll.btnSimulate': 'Simulate Payroll Credit',
     'payroll.btnPartnership': 'Establish Corporate Agreement',
 
     // XD Pay
@@ -259,6 +298,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'cta.eyebrow': 'NEXT STEP',
     'cta.title': 'Ready to unlock your company’s financial velocity?',
     'cta.subtitle': 'Speak directly with our corporate credit desk and receive a preliminary assessment in up to 24 business hours.',
+    'cta.button': 'Speak with our credit desk',
     'cta.btnPrimary': 'Start specialized consultation',
     'cta.btnSecondary': 'Open corporate payment account',
 
@@ -266,7 +306,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'footer.desc': 'XD Capital is a financial intelligence and intermediation hub operating as a banking correspondent to connect businesses to structured credit, acquiring solutions, and treasury management.',
     'footer.solutions': 'Solutions',
     'footer.institutional': 'Institutional',
-    'footer.legal': 'Legal & Compliance',
+    'footer.legal': 'Policies',
     'footer.contact': 'Support Desk',
     'footer.rights': 'All rights reserved.',
     'footer.regulatoryNotice': 'XD Capital Serviço de Intermediação Financeira Ltda. (Tax ID / CNPJ 55.038.166/0001-99) operates as a banking correspondent pursuant to Central Bank of Brazil (BCB) and CMN Resolutions. We are not a direct banking institution; payment accounts and settlements are operated by authorized regulated partners.',
@@ -275,7 +315,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'footer.terms': 'Terms of Use',
     'footer.lgpd': 'Privacy Portal (LGPD)',
     'footer.ouvidoria': 'Corporate Ombudsman',
-    'footer.pldft': 'Anti-Money Laundering (AML/CFT)',
+    'footer.pldft': 'PLD/FT',
     'footer.sp': 'HQ: São Paulo / SP - Brazil',
 
     // Subpages General
@@ -333,12 +373,16 @@ export const translations: Record<Language, LocalizedContent> = {
   },
   es: {
     // Nav
+    'nav.contaDigital': 'Cuenta Digital',
+    'nav.credito': 'Crédito',
+    'nav.maquininha': 'Terminal POS',
+    'nav.quemSomos': 'Quiénes Somos',
     'nav.solutions': 'Soluciones',
     'nav.payroll': 'Nómina y Consignado',
-    'nav.about': 'Sobre XD',
-    'nav.xdpay': 'XD Pay',
-    'nav.accessAccount': 'Área del Cliente',
-    'nav.openAccount': 'Abrir cuenta de pago',
+    'nav.about': 'Quiénes Somos',
+    'nav.xdpay': 'Terminal POS',
+    'nav.accessAccount': 'Acceda a su Cuenta',
+    'nav.openAccount': 'Abrir mi Cuenta',
     'nav.contact': 'Contáctenos',
     'nav.backHome': 'Volver al inicio',
     
@@ -364,12 +408,28 @@ export const translations: Record<Language, LocalizedContent> = {
     'stats.bacen.num': '100%',
     'stats.bacen.label': 'de las operaciones liquidadas vía Banco Central',
 
-    // Solutions
-    'solutions.eyebrow': 'PLATAFORMA INTEGRADA',
-    'solutions.title': 'Soluciones estructuradas para cada desafío de liquidez.',
-    'solutions.subtitle': 'Conectamos su empresa con instrumentos modernos de crédito, medios de pago y tesorería con respaldo legal y tasas altamente competitivas.',
-    'solutions.cta': 'Estructurar esta solución',
+    // Solutions / Cuenta Digital
+    'solutions.eyebrow': 'CUENTA DIGITAL',
+    'solutions.title': 'Cuenta digital hecha para simplificar.',
+    'solutions.subtitle': 'Todo lo que necesita para tener más control y claridad.',
+    'solutions.cta': 'Contáctenos',
     'solutions.learnMore': 'Conocer más detalles',
+    'solutions.feature.cartao.title': 'Tarjeta de Crédito',
+    'solutions.feature.cartao.desc': 'Tarjeta corporativa física y virtual con límite flexible y gestión en tiempo real.',
+    'solutions.feature.pix.title': 'Pix',
+    'solutions.feature.pix.desc': 'Transferencias y cobros instantáneos 24/7 con claves y QR Code dinámico.',
+    'solutions.feature.ted.title': 'TED',
+    'solutions.feature.ted.desc': 'Transferencias bancarias individuales y masivas a cualquier entidad de Brasil.',
+    'solutions.feature.cobrancas.title': 'Gestión de cobros',
+    'solutions.feature.cobrancas.desc': 'Control de morosidad, recordatorios automáticos y conciliación bancaria.',
+    'solutions.feature.boletos.title': 'Emisión de boletos bancarios',
+    'solutions.feature.boletos.desc': 'Emisión ágil de facturas registradas y boletos híbridos con Pix integrado.',
+    'solutions.feature.tributos.title': 'Pago de cuentas y tributos',
+    'solutions.feature.tributos.desc': 'Pago directo de servicios públicos, tasas e impuestos empresariales sin filas.',
+    'solutions.feature.maquininha.title': 'Terminal POS',
+    'solutions.feature.maquininha.desc': 'Acepte pagos de cualquier forma, en cualquier lugar, sin complicaciones.',
+    'solutions.feature.link.title': 'Link de Pago',
+    'solutions.feature.link.desc': 'Venda en línea por redes sociales y WhatsApp con total seguridad y antifraude.',
 
     // Segments
     'segments.eyebrow': 'ECOSISTEMA Y MERCADOS',
@@ -400,7 +460,6 @@ export const translations: Record<Language, LocalizedContent> = {
     'payroll.subtitle': 'Soluciones completas para alcaldías, gobiernos estaduales, entidades públicas y departamentos de Recursos Humanos.',
     'payroll.tabPublic': 'Consignado Servidores Públicos',
     'payroll.tabPrivate': 'Consignado Sector Privado',
-    'payroll.btnSimulate': 'Simular Crédito de Nómina',
     'payroll.btnPartnership': 'Establecer Convenio Corporativo',
 
     // XD Pay
@@ -422,6 +481,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'cta.eyebrow': 'SIGUIENTE PASO',
     'cta.title': '¿Listo para acelerar el flujo financiero de su empresa?',
     'cta.subtitle': 'Hable directamente con nuestra mesa de crédito corporativo y reciba una evaluación preliminar en hasta 24 horas hábiles.',
+    'cta.button': 'Hablar con nuestra mesa de crédito',
     'cta.btnPrimary': 'Iniciar atención especializada',
     'cta.btnSecondary': 'Abrir cuenta de pago corporativa',
 
@@ -429,7 +489,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'footer.desc': 'XD Capital es un hub de inteligencia e intermediación financiera que opera como corresponsal bancario para conectar empresas con crédito estructurado, medios de pago y tesorería.',
     'footer.solutions': 'Soluciones',
     'footer.institutional': 'Institucional',
-    'footer.legal': 'Legal y Cumplimiento',
+    'footer.legal': 'Políticas',
     'footer.contact': 'Atención',
     'footer.rights': 'Todos los derechos reservados.',
     'footer.regulatoryNotice': 'XD Capital Serviço de Intermediação Financeira Ltda. (CNPJ 55.038.166/0001-99) actúa como corresponsal bancario conforme a la normativa del Banco Central de Brasil. No somos una institución bancaria directa; las cuentas de pago y liquidaciones son operadas por socios autorizados.',
@@ -438,7 +498,7 @@ export const translations: Record<Language, LocalizedContent> = {
     'footer.terms': 'Términos de Uso',
     'footer.lgpd': 'Portal de Privacidad (LGPD)',
     'footer.ouvidoria': 'Defensoría del Cliente (Ouvidoria)',
-    'footer.pldft': 'Prevención de Lavado de Dinero (PLD/FT)',
+    'footer.pldft': 'PLD/FT',
     'footer.sp': 'Sede: São Paulo / SP - Brasil',
 
     // Subpages General

@@ -49,14 +49,6 @@ export const PayrollConsignedSection: React.FC<PayrollConsignedSectionProps> = (
       <div className="max-w-[1240px] mx-auto px-6 relative z-10">
         {/* Top Showcase: Title & CTAs */}
         <div className="max-w-[680px] mb-16 md:mb-20 text-left">
-          <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <div className="eyebrow-label">{t('payroll.eyebrow')}</div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-900/80 text-white text-[11.5px] font-mono shadow-xs">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#A3192E]" />
-              <span>{isEn ? "Compliance & Framework" : (isEs ? "Marco Regulatorio" : "Lei 10.820/03")}</span>
-            </div>
-          </div>
-
           <h2 className="section-h2 text-[#0B0F19] mb-5 tracking-[-0.03em] leading-[1.08]">
             {t('payroll.title')}
           </h2>
@@ -65,7 +57,7 @@ export const PayrollConsignedSection: React.FC<PayrollConsignedSectionProps> = (
             {t('payroll.subtitle')}
           </p>
 
-          <div className="flex flex-wrap items-center gap-3.5 mb-6">
+          <div className="flex flex-wrap items-center gap-3.5">
             <button
               onClick={() => onOpenContact('Quero conveniar minha empresa ou órgão público')}
               className="btn-primary text-[15px] !py-3.5 !px-6 cursor-pointer"
@@ -73,33 +65,6 @@ export const PayrollConsignedSection: React.FC<PayrollConsignedSectionProps> = (
               <span>{t('payroll.btnPartnership')}</span>
               <ArrowUpRight className="w-4 h-4" />
             </button>
-
-            <button
-              onClick={() => onOpenContact('Simulação de Crédito Consignado')}
-              className="btn-secondary text-[15px] !py-3.5 !px-6 cursor-pointer bg-white"
-            >
-              <span>{t('payroll.btnSimulate')}</span>
-            </button>
-          </div>
-
-          {/* Minimalist Trust Pill */}
-          <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/80 shadow-xs text-slate-800">
-            <div className="w-6 h-6 rounded-lg bg-[#A3192E]/10 flex items-center justify-center text-[#A3192E] font-mono text-[11px] font-medium">
-              XD
-            </div>
-            <div className="text-[13px] text-slate-700">
-              {isEn ? (
-                <>Corporate Agreements Desk for <strong className="text-slate-900 font-medium">Directors & HR Officers</strong></>
-              ) : isEs ? (
-                <>Mesa de Convenios para <strong className="text-slate-900 font-medium">Directores y RRHH</strong></>
-              ) : (
-                <>Mesa de Convênios com atendimento direto a <strong className="text-slate-900 font-medium">Diretores e RHs</strong></>
-              )}
-            </div>
-            <div className="flex items-center gap-1 text-[11px] font-mono text-[#A3192E] bg-[#A3192E]/10 px-2 py-0.5 rounded-full">
-              <CheckCircle2 className="w-3 h-3" />
-              <span>{isEn ? "Approved" : (isEs ? "Aprobado" : "Aprovado")}</span>
-            </div>
           </div>
         </div>
 
@@ -170,11 +135,7 @@ export const PayrollConsignedSection: React.FC<PayrollConsignedSectionProps> = (
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-[13px] text-slate-500 font-mono">
-                  <ShieldCheck className="w-4 h-4 text-[#A3192E]" />
-                  <span>{isEn ? "Strict compliance with regulatory frameworks" : (isEs ? "Conformidad regulatoria y legal" : "Conformidade com Lei nº 10.820 e Decretos Locais")}</span>
-                </div>
+              <div className="pt-6 border-t border-slate-100 flex flex-wrap items-center justify-end gap-4">
                 <button
                   onClick={() => onOpenContact('Convênio de Consignado - Setor Público')}
                   className="btn-primary text-[14.5px] !py-3 !px-6 cursor-pointer"

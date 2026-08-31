@@ -1,164 +1,118 @@
-import React, { useState } from 'react';
-import { SOLUTIONS_DATA_BY_LANG } from '../data/content';
-import { ArrowUpRight, CheckCircle2, ChevronRight } from 'lucide-react';
+import React from 'react';
+import {
+  CreditCard,
+  Zap,
+  ArrowLeftRight,
+  FileSpreadsheet,
+  Receipt,
+  Landmark,
+  BarChart3,
+  Link2
+} from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface SolutionsTabsProps {
   activeTabId?: string;
-  onOpenContact: (subject: string) => void;
+  onOpenContact?: (subject: string) => void;
 }
 
-export const SolutionsTabs: React.FC<SolutionsTabsProps> = ({
-  activeTabId = 'setor-publico',
-  onOpenContact
-}) => {
-  const { language, t } = useLanguage();
-  const solutionsData = SOLUTIONS_DATA_BY_LANG[language] || SOLUTIONS_DATA_BY_LANG['pt'];
-  const [selectedId, setSelectedId] = useState<string>(activeTabId);
-  const currentTab = solutionsData.find((item) => item.id === selectedId) || solutionsData[0];
+export const SolutionsTabs: React.FC<SolutionsTabsProps> = () => {
+  const { t } = useLanguage();
 
-  // Spotlight mousemove handler for cards
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
-    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
-  };
+  const features = [
+    {
+      id: 'cartao',
+      icon: CreditCard,
+      title: t('solutions.feature.cartao.title') || 'Cartão de Crédito',
+      description: t('solutions.feature.cartao.desc') || 'Cartão corporativo físico e virtual com limite flexível e gestão em tempo real.'
+    },
+    {
+      id: 'pix',
+      icon: Zap,
+      title: t('solutions.feature.pix.title') || 'Pix',
+      description: t('solutions.feature.pix.desc') || 'Transferências e recebimentos instantâneos 24/7 com chaves e QR Code dinâmico.'
+    },
+    {
+      id: 'ted',
+      icon: ArrowLeftRight,
+      title: t('solutions.feature.ted.title') || 'TED',
+      description: t('solutions.feature.ted.desc') || 'Transferências bancárias pontuais e em lote para qualquer instituição do país.'
+    },
+    {
+      id: 'cobrancas',
+      icon: FileSpreadsheet,
+      title: t('solutions.feature.cobrancas.title') || 'Gestão de cobranças',
+      description: t('solutions.feature.cobrancas.desc') || 'Controle de inadimplência, réguas automáticas e conciliação bancária completa.'
+    },
+    {
+      id: 'boletos',
+      icon: Receipt,
+      title: t('solutions.feature.boletos.title') || 'Emissão de boletos',
+      description: t('solutions.feature.boletos.desc') || 'Emissão simplificada de boletos registrados e boletos híbridos com Pix integrado.'
+    },
+    {
+      id: 'tributos',
+      icon: Landmark,
+      title: t('solutions.feature.tributos.title') || 'Pagamento de contas e tributos',
+      description: t('solutions.feature.tributos.desc') || 'Liquidação de guias (DARF, GPS, FGTS), concessionárias e impostos sem filas.'
+    },
+    {
+      id: 'maquininha',
+      icon: BarChart3,
+      title: t('solutions.feature.maquininha.title') || 'Maquininha',
+      description: t('solutions.feature.maquininha.desc') || 'Aceite pagamentos de qualquer forma, em qualquer lugar, sem complicação.'
+    },
+    {
+      id: 'link',
+      icon: Link2,
+      title: t('solutions.feature.link.title') || 'Link de Pagamento',
+      description: t('solutions.feature.link.desc') || 'Venda online por redes sociais e WhatsApp com total segurança e antifraude.'
+    }
+  ];
 
   return (
     <section
       id="solucoes"
-      aria-label="Soluções Financeiras Integradas"
-      className="py-24 md:py-36 bg-[#FAFAFC] relative"
+      aria-label="Conta digital feita para simplificar"
+      className="py-20 md:py-32 bg-white relative border-b border-slate-100"
     >
       <div className="max-w-[1240px] mx-auto px-6">
         {/* Section Header */}
-        <div className="max-w-[760px] mb-12 md:mb-16">
-          <div className="eyebrow-label mb-3">{t('solutions.eyebrow')}</div>
-          <h2 className="section-h2 text-[#0B0F19] mb-5">
-            {t('solutions.title')}
+        <div className="max-w-[780px] mb-16 md:mb-20">
+          <h2 className="text-[36px] sm:text-[46px] md:text-[54px] font-normal text-[#0B0F19] tracking-[-0.035em] leading-[1.08] mb-4">
+            {t('solutions.title') || 'Conta digital feita para simplificar.'}
           </h2>
-          <p className="body-text text-[17px] max-w-[620px] text-slate-600">
-            {t('solutions.subtitle')}
+          <p className="text-[17px] sm:text-[19px] text-slate-500 font-normal leading-relaxed">
+            {t('solutions.subtitle') || 'Tudo o que você precisa para ter mais controle e clareza.'}
           </p>
         </div>
 
-        {/* Horizontal Tabs Bar / Mobile Carousel */}
-        <div
-          id="solutions-tabs-bar"
-          className="flex items-center gap-2 md:gap-3 overflow-x-auto pb-4 mb-10 scrollbar-none snap-x snap-mandatory"
-          role="tablist"
-        >
-          {solutionsData.map((tab) => {
-            const isActive = tab.id === selectedId;
+        {/* 8 Feature Columns Grid (4 columns on desktop, 2 on tablet, 1 on mobile) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-12 sm:gap-y-14">
+          {features.map((item) => {
+            const Icon = item.icon;
             return (
-              <button
-                key={tab.id}
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`panel-${tab.id}`}
-                id={`tab-${tab.id}`}
-                onClick={() => setSelectedId(tab.id)}
-                className={`snap-start shrink-0 text-left px-5 py-3.5 rounded-[14px] border transition-all duration-300 cursor-pointer ${
-                  isActive
-                    ? 'bg-white border-[#A3192E] text-slate-900 shadow-md shadow-[#A3192E]/10 ring-1 ring-[#A3192E]/20'
-                    : 'bg-white/80 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-white hover:border-slate-300'
-                }`}
+              <div
+                key={item.id}
+                className="group flex flex-col text-left select-none transition-all duration-300 hover:-translate-y-1 cursor-default"
               >
-                <div className="font-normal text-[15px] whitespace-nowrap text-slate-900">
-                  {tab.tabLabel}
-                </div>
-                <div className="text-[12px] text-slate-500 whitespace-nowrap font-normal mt-0.5">
-                  {tab.tabSub}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Tab Content Panel */}
-        <div
-          id={`panel-${currentTab.id}`}
-          role="tabpanel"
-          aria-labelledby={`tab-${currentTab.id}`}
-          key={currentTab.id}
-          className="bg-white border border-slate-200/90 rounded-[22px] p-7 md:p-12 transition-all duration-500 shadow-xl relative overflow-hidden"
-        >
-          {/* Subtle background glow inside panel */}
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#A3192E]/[0.03] rounded-full blur-[100px] pointer-events-none" />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-            {/* Left: Main Copy & Pills */}
-            <div className="lg:col-span-6 flex flex-col justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-[12.5px] text-[#A3192E] font-medium mb-4">
-                  <span>{currentTab.tabLabel}</span>
+                {/* Icon Container with minimalist rounded styling */}
+                <div className="w-12 h-12 rounded-[14px] bg-[#F3F4F6] border border-slate-200/80 flex items-center justify-center text-[#0B0F19] group-hover:bg-[#A3192E] group-hover:text-white group-hover:border-[#A3192E] group-hover:shadow-md group-hover:shadow-[#A3192E]/15 transition-all duration-300 mb-6 shadow-2xs">
+                  <Icon className="w-5 h-5 stroke-[1.8]" />
                 </div>
 
-                <h3 className="text-[26px] sm:text-[32px] md:text-[36px] font-normal text-[#0B0F19] tracking-[-0.03em] leading-[1.15] mb-5">
-                  {currentTab.title}
+                {/* Title */}
+                <h3 className="text-[20px] font-normal text-[#0B0F19] tracking-[-0.02em] leading-snug mb-2.5 group-hover:text-[#A3192E] transition-colors duration-300">
+                  {item.title}
                 </h3>
 
-                <p className="body-text text-[16px] md:text-[17px] text-slate-600 leading-relaxed mb-8">
-                  {currentTab.description}
+                {/* Description */}
+                <p className="text-[15px] text-slate-500 font-normal leading-relaxed group-hover:text-slate-700 transition-colors duration-300">
+                  {item.description}
                 </p>
-
-                {/* 3 Pills */}
-                <div className="flex flex-wrap gap-2.5 mb-8">
-                  {currentTab.pills.map((pill, idx) => (
-                    <span
-                      key={idx}
-                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[13px] font-normal bg-slate-50 border border-slate-200/90 text-slate-800 shadow-xs"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#A3192E]" />
-                      {pill}
-                    </span>
-                  ))}
-                </div>
               </div>
-
-              {/* Action Button */}
-              <div>
-                <button
-                  onClick={() => onOpenContact(`Solução: ${currentTab.tabLabel}`)}
-                  className="btn-primary text-[14px] cursor-pointer"
-                >
-                  <span>{t('solutions.cta')} · {currentTab.tabLabel}</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Right: Two Interactive Spotlight Subcards */}
-            <div className="lg:col-span-6 flex flex-col gap-5 justify-center">
-              {currentTab.subcards.map((subcard, idx) => (
-                <div
-                  key={idx}
-                  onMouseMove={handleMouseMove}
-                  onClick={() => onOpenContact(`${currentTab.tabLabel} - ${subcard.title}`)}
-                  className="spotlight-card rounded-[18px] p-6 sm:p-7 group cursor-pointer bg-[#F8F9FB] border border-slate-200/80 hover:border-[#A3192E]/40 hover:bg-white transition-all shadow-xs"
-                >
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#A3192E] font-normal bg-[#A3192E]/[0.08] border border-[#A3192E]/20 px-2.5 py-1 rounded">
-                      {subcard.tag || 'Módulo'}
-                    </span>
-                    <span className="w-7 h-7 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:border-[#A3192E] group-hover:bg-[#A3192E] transition-all shadow-xs">
-                      <ChevronRight className="w-4 h-4" />
-                    </span>
-                  </div>
-
-                  <h4 className="text-[19px] sm:text-[20px] font-normal text-[#0B0F19] tracking-[-0.02em] mb-2 group-hover:text-[#A3192E] transition-colors">
-                    {subcard.title}
-                  </h4>
-
-                  <p className="text-[14px] sm:text-[15px] text-slate-600 leading-relaxed">
-                    {subcard.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>

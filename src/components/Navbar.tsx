@@ -8,6 +8,7 @@ interface NavbarProps {
   onOpenOpenAccount: () => void;
   onNavigateHome: () => void;
   onNavigateView: (view: AppView) => void;
+  onSelectSolution?: (solutionId: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -15,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenOpenAccount,
   onNavigateHome,
   onNavigateView,
+  onSelectSolution,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -67,10 +69,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const navItems = [
-    { label: t('nav.solutions') || 'Soluções', href: '#solucoes', type: 'anchor' as const },
-    { label: t('nav.payroll') || 'Folha & Consignado', href: '#folha-consignado', type: 'anchor' as const },
-    { label: t('nav.about') || 'Sobre a XD', view: 'sobre-a-xd' as AppView, type: 'view' as const },
-    { label: t('nav.xdpay') || 'XD Pay', href: '#xd-pay', type: 'anchor' as const },
+    { label: t('nav.contaDigital') || 'Conta Digital', solutionId: 'conta-pj', type: 'solution' as const },
+    { label: t('nav.credito') || 'Crédito', solutionId: 'credito-corporativo', type: 'solution' as const },
+    { label: t('nav.maquininha') || 'Maquininha', href: '#xd-pay', type: 'anchor' as const },
+    { label: t('nav.quemSomos') || 'Quem somos', view: 'sobre-a-xd' as AppView, type: 'view' as const },
   ];
 
   return (
@@ -104,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
-          {/* Center Links (Desktop - Reorganizado: Soluções, Folha & Consignado, Sobre a XD, XD Pay) */}
+          {/* Center Links (Desktop: Conta Digital, Crédito, Maquininha, Quem somos) */}
           <nav className="hidden md:flex items-center gap-7 lg:gap-8" aria-label="Navegação Principal">
             {navItems.map((item) => {
               if (item.type === 'view') {
@@ -116,6 +118,26 @@ export const Navbar: React.FC<NavbarProps> = ({
                   >
                     {item.label}
                   </button>
+                );
+              }
+              if (item.type === 'solution') {
+                return (
+                  <a
+                    key={item.label}
+                    href="#solucoes"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onNavigateHome();
+                      onSelectSolution?.(item.solutionId);
+                      const el = document.getElementById('solucoes');
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className="nav-link text-[14.5px] font-normal py-1 text-slate-700 hover:text-[#0B0F19] transition-colors cursor-pointer"
+                  >
+                    {item.label}
+                  </a>
                 );
               }
               return (
@@ -188,26 +210,26 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            {/* Acesse sua conta - Integrado ao Internet Banking */}
+            {/* Acesse sua Conta - Integrado ao Internet Banking */}
             <a
               id="btn-access-account-nav"
-              href="https://www.ib.xdcapital.com.br/"
+              href="https://ib.xdcapital.com.br/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[13.5px] font-normal text-slate-700 hover:text-[#0B0F19] px-4 py-2 rounded-full border border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <Lock className="w-3.5 h-3.5 text-slate-500" />
-              <span>{t('nav.accessAccount') || 'Acesse sua conta'}</span>
+              <span>{t('nav.accessAccount') || 'Acesse sua Conta'}</span>
               <ExternalLink className="w-3 h-3 text-slate-400 ml-0.5" />
             </a>
 
-            {/* Abra sua Conta */}
+            {/* Abrir minha Conta */}
             <button
               id="btn-open-account-nav"
               onClick={onOpenOpenAccount}
               className="btn-primary text-[13.5px] !py-2.5 !px-5.5 cursor-pointer"
             >
-              <span>{t('nav.openAccount') || 'Abra sua Conta'}</span>
+              <span>{t('nav.openAccount') || 'Abrir minha Conta'}</span>
               <ArrowUpRight className="w-4 h-4 text-white/90" />
             </button>
           </div>
@@ -291,6 +313,27 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </button>
                 );
               }
+              if (item.type === 'solution') {
+                return (
+                  <a
+                    key={item.label}
+                    href="#solucoes"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMobileMenuOpen(false);
+                      onNavigateHome();
+                      onSelectSolution?.(item.solutionId);
+                      const el = document.getElementById('solucoes');
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className="text-[22px] tracking-[-0.02em] text-slate-900 hover:text-[#A3192E] transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
               return (
                 <a
                   key={item.label}
@@ -319,13 +362,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <div className="flex flex-col gap-3 pt-8 border-t border-slate-200">
             <a
-              href="https://www.ib.xdcapital.com.br/"
+              href="https://ib.xdcapital.com.br/"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full btn-secondary justify-center py-3.5 text-[15px]"
             >
               <Lock className="w-4 h-4 mr-1 text-slate-500" />
-              <span>{t('nav.accessAccount') || 'Acesse sua conta'}</span>
+              <span>{t('nav.accessAccount') || 'Acesse sua Conta'}</span>
               <ExternalLink className="w-3.5 h-3.5 ml-1 text-slate-400" />
             </a>
             <button
@@ -335,7 +378,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className="w-full btn-primary justify-center py-3.5 text-[15px]"
             >
-              <span>{t('nav.openAccount') || 'Abra sua Conta'}</span>
+              <span>{t('nav.openAccount') || 'Abrir minha Conta'}</span>
               <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>

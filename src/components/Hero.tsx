@@ -6,12 +6,11 @@ import { useLanguage } from '../context/LanguageContext';
 interface HeroProps {
   onOpenContact: (subject?: string) => void;
   onOpenOpenAccount: () => void;
-  onNavigateContact: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({
+  onOpenContact,
   onOpenOpenAccount,
-  onNavigateContact,
 }) => {
   const { t } = useLanguage();
 
@@ -79,28 +78,12 @@ export const Hero: React.FC<HeroProps> = ({
             {/* Fale com a gente */}
             <button
               id="hero-btn-contact"
-              onClick={onNavigateContact}
+              onClick={() => onOpenContact('Atendimento Geral - Início')}
               className="btn-secondary bg-white/90 backdrop-blur-md text-[15px] !py-3.5 !px-6 cursor-pointer"
             >
               <span>{t('hero.btnContact')}</span>
               <ArrowUpRight className="w-4 h-4 text-slate-500" />
             </button>
-          </div>
-
-          {/* Trust Micro-Row with Glass Backdrop */}
-          <div className="pt-6 border-t border-slate-200/90 w-full flex flex-wrap items-center gap-y-2.5 gap-x-6 sm:gap-x-8 text-[13.5px] text-slate-600">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#A3192E] shrink-0" />
-              <span className="font-normal text-slate-800">{t('hero.trust72h')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#A3192E] shrink-0" />
-              <span className="font-normal text-slate-800">{t('hero.trustSecurity')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#A3192E] shrink-0" />
-              <span className="font-normal text-slate-800">{t('hero.trustService')}</span>
-            </div>
           </div>
         </div>
       </div>

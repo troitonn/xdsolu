@@ -11,8 +11,7 @@ import { FaqSection } from './components/FaqSection';
 import { CtaSection } from './components/CtaSection';
 import { Footer } from './components/Footer';
 import { ContactModal } from './components/ContactModal';
-import { OpenAccountModal } from './components/OpenAccountModal';
-import { ContactPage } from './components/ContactPage';
+import { OpenAccountPage } from './components/OpenAccountPage';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
 import { TermsOfUsePage } from './components/TermsOfUsePage';
 import { LgpdPage } from './components/LgpdPage';
@@ -21,20 +20,33 @@ import { PldFtPage } from './components/PldFtPage';
 import { AboutPage } from './components/AboutPage';
 import { CookieConsent } from './components/CookieConsent';
 
-export type AppView = 'home' | 'fale-com-a-gente' | 'politica-de-privacidade' | 'termos-de-uso' | 'lgpd' | 'ouvidoria' | 'pld-ft' | 'sobre-a-xd';
+export type AppView =
+  | 'home'
+  | 'politica-de-privacidade'
+  | 'termos-de-uso'
+  | 'lgpd'
+  | 'ouvidoria'
+  | 'pld-ft'
+  | 'sobre-a-xd'
+  | 'abrir-conta';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [contactModalOpen, setContactModalOpen] = useState(false);
-  const [openAccountModalOpen, setOpenAccountModalOpen] = useState(false);
   const [selectedContactSubject, setSelectedContactSubject] = useState('Atendimento Geral');
   const [activeSolutionId, setActiveSolutionId] = useState('setor-publico');
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash === '#fale-com-a-gente' || hash === '#fale-conosco') {
-        setCurrentView('fale-com-a-gente');
+      if (
+        hash === '#abrir-conta' ||
+        hash === '#abrir-conta-de-pagamento' ||
+        hash === '#abra-sua-conta' ||
+        hash === '#cadastro' ||
+        hash === '#abertura-de-conta'
+      ) {
+        setCurrentView('abrir-conta');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === '#politica-de-privacidade') {
         setCurrentView('politica-de-privacidade');
@@ -60,8 +72,6 @@ export default function App() {
           const el = document.getElementById('xd-pay');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 100);
-      } else if (hash === '#abra-sua-conta') {
-        setOpenAccountModalOpen(true);
       }
     };
 
@@ -85,8 +95,8 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleNavigateContact = () => {
-    handleNavigateView('fale-com-a-gente');
+  const handleNavigateOpenAccount = () => {
+    handleNavigateView('abrir-conta');
   };
 
   const handleNavigateHome = () => {
@@ -108,19 +118,23 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFC] text-[#0B0F19] selection:bg-[#A3192E] selection:text-white flex flex-col justify-between">
-      {/* NAVBAR */}
-      <Navbar
-        onOpenContact={handleNavigateContact}
-        onOpenOpenAccount={() => setOpenAccountModalOpen(true)}
-        onNavigateHome={handleNavigateHome}
-        onNavigateView={handleNavigateView}
-      />
+      {/* NAVBAR (Hidden in full-screen onboarding view) */}
+      {currentView !== 'abrir-conta' && (
+        <Navbar
+          onOpenContact={handleOpenContact}
+          onOpenOpenAccount={handleNavigateOpenAccount}
+          onNavigateHome={handleNavigateHome}
+          onNavigateView={handleNavigateView}
+          onSelectSolution={handleSelectSolution}
+        />
+      )}
 
       <main className="flex-grow">
-        {currentView === 'fale-com-a-gente' && (
-          <ContactPage
+        {currentView === 'abrir-conta' && (
+          <OpenAccountPage
             onBackToHome={handleNavigateHome}
-            onOpenAccount={() => setOpenAccountModalOpen(true)}
+            onNavigateContact={handleOpenContact}
+            onNavigateTerms={() => handleNavigateView('termos-de-uso')}
             onNavigatePrivacy={() => handleNavigateView('politica-de-privacidade')}
             onNavigateView={handleNavigateView}
           />
@@ -137,7 +151,7 @@ export default function App() {
           <TermsOfUsePage
             onBackToHome={handleNavigateHome}
             onOpenContact={handleOpenContact}
-            onOpenOpenAccount={() => setOpenAccountModalOpen(true)}
+            onOpenOpenAccount={handleNavigateOpenAccount}
           />
         )}
 
@@ -166,7 +180,7 @@ export default function App() {
           <AboutPage
             onBackToHome={handleNavigateHome}
             onOpenContact={handleOpenContact}
-            onOpenOpenAccount={() => setOpenAccountModalOpen(true)}
+            onOpenOpenAccount={handleNavigateOpenAccount}
           />
         )}
 
@@ -175,8 +189,7 @@ export default function App() {
             {/* HERO */}
             <Hero
               onOpenContact={handleOpenContact}
-              onOpenOpenAccount={() => setOpenAccountModalOpen(true)}
-              onNavigateContact={handleNavigateContact}
+              onOpenOpenAccount={handleNavigateOpenAccount}
             />
 
             {/* BARRA DE NÚMEROS */}
@@ -185,12 +198,12 @@ export default function App() {
             {/* SOLUÇÕES: SEÇÃO COM ABAS */}
             <SolutionsTabs
               activeTabId={activeSolutionId}
-              onOpenContact={handleNavigateContact}
+              onOpenContact={handleOpenContact}
             />
 
             {/* SEGMENTOS: BENTO GRID */}
             <SegmentsBento
-              onOpenContact={handleNavigateContact}
+              onOpenContact={handleOpenContact}
             />
 
             {/* COMO FUNCIONA */}
@@ -198,39 +211,35 @@ export default function App() {
 
             {/* FOLHA DE PAGAMENTO E CRÉDITO CONSIGNADO (PÚBLICO E PRIVADO) */}
             <PayrollConsignedSection
-              onOpenContact={handleNavigateContact}
+              onOpenContact={handleOpenContact}
             />
 
             {/* XD PAY: MAQUININHAS & MEIOS DE PAGAMENTO */}
             <XdPaySection
-              onOpenContact={handleNavigateContact}
+              onOpenContact={handleOpenContact}
             />
 
             {/* FAQ */}
             <FaqSection
-              onOpenContact={handleNavigateContact}
+              onOpenContact={handleOpenContact}
             />
 
             {/* CTA FINAL */}
             <CtaSection
-              onOpenContact={handleNavigateContact}
+              onOpenContact={handleOpenContact}
             />
           </>
         )}
       </main>
 
-      {/* FOOTER */}
-      <Footer
-        onSelectSolution={handleSelectSolution}
-        onOpenContact={handleNavigateContact}
-        onNavigateView={handleNavigateView}
-      />
-
-      {/* MODAL DE ABERTURA DE CONTA MULTI-STEP (WIZARD) */}
-      <OpenAccountModal
-        isOpen={openAccountModalOpen}
-        onClose={() => setOpenAccountModalOpen(false)}
-      />
+      {/* FOOTER (Hidden in full-screen onboarding view) */}
+      {currentView !== 'abrir-conta' && (
+        <Footer
+          onSelectSolution={handleSelectSolution}
+          onOpenContact={handleOpenContact}
+          onNavigateView={handleNavigateView}
+        />
+      )}
 
       {/* MODAL RÁPIDO DE MENSAGEM / CONTATO */}
       <ContactModal

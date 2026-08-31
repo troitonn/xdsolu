@@ -1,11 +1,12 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { AppView } from '../App';
 
 interface FooterProps {
   onSelectSolution: (id: string) => void;
   onOpenContact: (subject: string) => void;
-  onNavigateView: (view: 'home' | 'fale-com-a-gente' | 'politica-de-privacidade' | 'termos-de-uso' | 'lgpd' | 'ouvidoria' | 'pld-ft' | 'sobre-a-xd') => void;
+  onNavigateView: (view: AppView) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact, onNavigateView }) => {
@@ -92,7 +93,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
                   href="#xd-pay"
                   className="hover:text-[#0B0F19] hover:underline transition-colors"
                 >
-                  XD Pay {isEn ? '(POS Terminals)' : (isEs ? '(Terminales POS)' : '(Maquininhas)')}
+                  {isEn ? 'Card Terminal' : (isEs ? 'Maquininha' : 'Maquininha')}
                 </a>
               </li>
               <li>
@@ -101,16 +102,17 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
                   onClick={() => onSelectSolution('pagamentos')}
                   className="hover:text-[#0B0F19] hover:underline transition-colors"
                 >
-                  {isEn ? 'Payment Methods & Merchant Acquiring' : (isEs ? 'Medios de Pago y Adquirencia' : 'Meios de Pagamento & captura')}
+                  {isEn ? 'Payment Link' : (isEs ? 'Link de Pago' : 'Link de Pagamento')}
                 </a>
               </li>
               <li>
-                <div className="flex items-center gap-2 text-slate-400 select-none">
-                  <span>{isEn ? 'Debit Card' : (isEs ? 'Tarjeta de Débito' : 'Cartão de Débito')}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 font-mono">
-                    {isEn ? 'coming soon' : (isEs ? 'próximamente' : 'em breve')}
-                  </span>
-                </div>
+                <a
+                  href="#solucoes"
+                  onClick={() => onSelectSolution('pagamentos')}
+                  className="hover:text-[#0B0F19] hover:underline transition-colors"
+                >
+                  {isEn ? 'Credit Card' : (isEs ? 'Tarjeta de Crédito' : 'Cartão de Crédito')}
+                </a>
               </li>
             </ul>
           </div>
@@ -123,7 +125,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
             <ul className="space-y-3 text-[14.5px] text-slate-600">
               <li>
                 <a
-                  href="https://www.ib.xdcapital.com.br/"
+                  href="https://ib.xdcapital.com.br/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[#0B0F19] hover:underline transition-colors flex items-center gap-1"
@@ -131,6 +133,14 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
                   <span>{t('nav.accessAccount')}</span>
                   <ArrowUpRight className="w-3 h-3 text-slate-400" />
                 </a>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigateView('abrir-conta')}
+                  className="hover:text-[#0B0F19] hover:underline transition-colors text-left cursor-pointer"
+                >
+                  {t('nav.openAccount')}
+                </button>
               </li>
               <li>
                 <button
@@ -178,7 +188,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
                   onClick={() => onNavigateView('pld-ft')}
                   className="hover:text-[#0B0F19] hover:underline transition-colors text-left cursor-pointer"
                 >
-                  {t('footer.aml')}
+                  {t('footer.pldft')}
                 </button>
               </li>
               <li>
@@ -202,7 +212,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
                   onClick={() => onNavigateView('ouvidoria')}
                   className="hover:text-[#0B0F19] hover:underline transition-colors text-left cursor-pointer"
                 >
-                  {t('footer.ombudsman')}
+                  {t('footer.ouvidoria')}
                 </button>
               </li>
             </ul>
