@@ -66,14 +66,16 @@ export const Hero: React.FC<HeroProps> = ({
           {/* CTA Buttons Row */}
           <div className="flex flex-wrap items-center gap-3.5 w-full sm:w-auto mb-10">
             {/* Abrir conta de pagamento */}
-            <button
+                        <a
               id="hero-btn-open-account"
-              onClick={onOpenOpenAccount}
-              className="btn-primary text-[15px] !py-3.5 !px-7 cursor-pointer shadow-md"
+              href="https://ib.xdcapital.com.br/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary text-[15px] !py-3.5 !px-7 cursor-pointer shadow-md inline-flex items-center"
             >
               <span>{t('hero.btnOpenAccount')}</span>
               <ArrowUpRight className="w-4 h-4" />
-            </button>
+            </a>
 
             {/* Fale com a gente */}
             <button
