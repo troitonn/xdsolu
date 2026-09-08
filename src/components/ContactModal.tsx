@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, ArrowUpRight, CheckCircle2, ShieldCheck, Building, Mail, Phone, User, FileText } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
+
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
