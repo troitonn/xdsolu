@@ -44,9 +44,26 @@ async function handleContact(
       message,
     } = data;
 
-    if (!name || !email || !message) {
+    // Validação básica
+    if (!name?.trim() || !email?.trim() || !message?.trim()) {
       return json(
-        { success: false, error: "Preencha os campos obrigatórios." },
+        {
+          success: false,
+          error: "Preencha os campos obrigatórios.",
+        },
+        400
+      );
+    }
+
+    // Validação simples de e-mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email.trim())) {
+      return json(
+        {
+          success: false,
+          error: "Informe um e-mail válido.",
+        },
         400
       );
     }
@@ -56,29 +73,65 @@ async function handleContact(
       {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${env.API_FORMULARIO}`,
+          Authorization: `Bearer ${env.API_FORMULARIO}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           from: "XD Capital <contato@xdcapital.com.br>",
           to: ["projects@troiton.com.br"],
-          reply_to: email,
-          subject: `Novo contato pelo site — ${subject || "Atendimento"}`,
+          reply_to: email.trim(),
+
+          subject: `Novo contato pelo site — ${
+            subject?.trim() || "Atendimento"
+          }`,
+
           html: `
             <h2>Novo contato pelo site XD Capital</h2>
 
-            <p><strong>Assunto:</strong> ${subject || "-"}</p>
-            <p><strong>Empresa:</strong> ${companyName || "-"}</p>
-            <p><strong>CNPJ:</strong> ${cnpj || "-"}</p>
-            <p><strong>Nome:</strong> ${name}</p>
-            <p><strong>E-mail:</strong> ${email}</p>
-            <p><strong>Telefone:</strong> ${phone || "-"}</p>
-            <p><strong>Volume:</strong> ${volume || "-"}</p>
+            <p>
+              <strong>Assunto:</strong>
+              ${escapeHtml(subject || "-")}
+            </p>
+
+            <p>
+              <strong>Empresa:</strong>
+              ${escapeHtml(companyName || "-")}
+            </p>
+
+            <p>
+              <strong>CNPJ:</strong>
+              ${escapeHtml(cnpj || "-")}
+            </p>
+
+            <p>
+              <strong>Nome:</strong>
+              ${escapeHtml(name)}
+            </p>
+
+            <p>
+              <strong>E-mail:</strong>
+              ${escapeHtml(email)}
+            </p>
+
+            <p>
+              <strong>Telefone:</strong>
+              ${escapeHtml(phone || "-")}
+            </p>
+
+            <p>
+              <strong>Volume:</strong>
+              ${escapeHtml(volume || "-")}
+            </p>
 
             <hr />
 
-            <p><strong>Mensagem:</strong></p>
-            <p>${message}</p>
+            <p>
+              <strong>Mensagem:</strong>
+            </p>
+
+            <p>
+              ${escapeHtml(message).replace(/\n/g, "<br />")}
+            </p>
           `,
         }),
       }
@@ -98,7 +151,10 @@ async function handleContact(
       );
     }
 
-    return json({ success: true });
+    return json({
+      success: true,
+      message: "Mensagem enviada com sucesso.",
+    });
   } catch (error) {
     console.error("Erro no formulário:", error);
 
@@ -112,11 +168,24 @@ async function handleContact(
   }
 }
 
+/**
+ * Impede que conteúdo enviado pelo usuário
+ * seja interpretado como HTML no e-mail.
+ */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=UTF-8",
     },
   });
 }
