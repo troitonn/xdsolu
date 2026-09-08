@@ -87,7 +87,7 @@ async function handleContact(
         },
         body: JSON.stringify({
           from: "XD Capital <noreply@update.xdcapital.com.br>",
-          to: ["projects@troiton.com.br"],
+          to: ["suporte@xdcapital.com.br"],
           reply_to: email.trim(),
 
           subject: `Novo contato pelo site — ${
@@ -313,7 +313,7 @@ async function handleAccountOpening(
           from: "XD Capital <noreply@update.xdcapital.com.br>",
 
           // Destinatário do cadastro
-          to: ["projects@troiton.com.br"],
+          to: ["suporte@xdcapital.com.br"],
 
           // Responder para o cliente
           reply_to: email.trim(),
