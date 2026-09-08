@@ -46,10 +46,22 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
+const response = await fetch('/api/contact', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    subject,
+    companyName,
+    cnpj,
+    name,
+    email,
+    phone,
+    volume,
+    message,
+  }),
+});
 
   const handleReset = () => {
     setSubmitted(false);
