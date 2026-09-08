@@ -364,21 +364,49 @@ export const OpenAccountPage: React.FC<OpenAccountPageProps> = ({
     }
   }, [step]);
 
-  const handleSubmit = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      const proto = `XD-CAD-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
-      const now = new Intl.DateTimeFormat('pt-BR', {
-        dateStyle: 'short',
-        timeStyle: 'short',
-      }).format(new Date());
+ const handleSubmit = async () => {
+  setIsSubmitting(true);
 
-      setProtocolNumber(proto);
-      setSubmissionDate(now);
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 700);
-  };
+  try {
+    const response = await fetch('/api/account-opening', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        accountType,
+        ...formData,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.error || 'Não foi possível enviar o cadastro.'
+      );
+    }
+
+    setProtocolNumber(result.protocol);
+    setSubmissionDate(result.date);
+    setIsSubmitted(true);
+
+  } catch (error) {
+    console.error('Erro ao enviar cadastro:', error);
+
+    setErrors((prev) => ({
+      ...prev,
+      submit: isEn
+        ? 'Unable to submit registration.'
+        : isEs
+        ? 'No fue posible enviar el registro.'
+        : 'Não foi possível enviar o cadastro. Tente novamente.',
+    }));
+
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // Keyboard navigation: Enter advances to next step
   useEffect(() => {
