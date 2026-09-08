@@ -61,7 +61,7 @@ async function handleContact(
         },
         body: JSON.stringify({
           from: "XD Capital <contato@xdcapital.com.br>",
-          to: ["contato@xdcapital.com.br"],
+          to: ["projects@troiton.com.br"],
           reply_to: email,
           subject: `Novo contato pelo site — ${subject || "Atendimento"}`,
           html: `
