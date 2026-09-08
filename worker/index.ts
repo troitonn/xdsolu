@@ -78,7 +78,7 @@ async function handleContact(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "XD Capital <contato@update.xdcapital.com.br>",
+          from: "XD Capital <noreply@update.xdcapital.com.br>",
           to: ["projects@troiton.com.br"],
           reply_to: email.trim(),
 
