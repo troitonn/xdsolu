@@ -322,7 +322,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               <li><strong>III –</strong> quando o dado estiver sob custódia do Liquidante na qualidade de controlador nesse caso, a solicitação deverá ser direcionada diretamente ao Liquidante.</li>
             </ul>
             <p className="pt-1">
-              <strong>9.3.</strong> As solicitações de titulares devem ser encaminhadas ao Encarregado (DPO) pelo e-mail <a href="mailto:privacidade@xdcapital.com.br" className="text-[#A3192E] underline">privacidade@xdcapital.com.br</a>. O prazo de resposta é de até 15 (quinze) dias corridos, prorrogável por igual período mediante justificativa.
+              <strong>9.3.</strong> As solicitações de titulares devem ser encaminhadas ao Encarregado (DPO) pelo e-mail <a href="mailto:dpo@xdcapital.com.br" className="text-[#A3192E] underline">dpo@xdcapital.com.br</a>. O prazo de resposta é de até 15 (quinze) dias corridos, prorrogável por igual período mediante justificativa.
             </p>
           </section>
 
@@ -382,7 +382,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               <li><strong>IV –</strong> zelar pelo cumprimento desta Política e da LGPD.</li>
             </ul>
             <p className="pt-2">
-              <strong>12.2.</strong> O Encarregado pode ser contactado pelo e-mail <a href="mailto:privacidade@xdcapital.com.br" className="text-[#A3192E] font-medium underline">privacidade@xdcapital.com.br</a> ou pelos demais canais de atendimento disponibilizados pela XD Capital.
+              <strong>12.2.</strong> O Encarregado pode ser contactado pelo e-mail <a href="mailto:dpo@xdcapital.com.br" className="text-[#A3192E] font-medium underline">dpo@xdcapital.com.br</a> ou pelos demais canais de atendimento disponibilizados pela XD Capital.
             </p>
           </section>
 
@@ -539,7 +539,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
                 <p className="text-[12.5px] text-slate-500">
-                  Canal institucional do Encarregado pelo Tratamento de Dados (DPO): <strong className="text-slate-700">privacidade@xdcapital.com.br</strong>
+                  Canal institucional do Encarregado pelo Tratamento de Dados (DPO): <strong className="text-slate-700">dpo@xdcapital.com.br</strong>
                 </p>
                 <button
                   type="submit"
@@ -556,7 +556,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         <div className="p-6 rounded-[20px] bg-slate-100 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="text-[15px] font-normal text-slate-900">Encarregado pelo Tratamento de Dados (DPO)</div>
-            <div className="text-[13.5px] text-slate-500 font-mono mt-0.5">privacidade@xdcapital.com.br · compliance@xdcapital.com.br</div>
+            <div className="text-[13.5px] text-slate-500 font-mono mt-0.5">dpo@xdcapital.com.br</div>
           </div>
           <button
             onClick={() => onOpenContact('Dúvidas sobre LGPD e Dados Pessoais')}
