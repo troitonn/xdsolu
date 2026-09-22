@@ -19,12 +19,53 @@ export const CodeOfEthicsPage: React.FC<CodeOfEthicsPageProps> = ({ onBackToHome
     description: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const generatedProtocol = `ETH-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
-    setProtocol(generatedProtocol);
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [submitError, setSubmitError] = useState('');
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  setSubmitError('');
+  setIsSubmitting(true);
+
+  try {
+    const response = await fetch('/api/ethics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        reportType,
+        isAnonymous,
+        name: isAnonymous ? '' : formData.name,
+        email: isAnonymous ? '' : formData.email,
+        phone: isAnonymous ? '' : formData.phone,
+        involvement: formData.involvement,
+        description: formData.description,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || 'Não foi possível registrar a manifestação.'
+      );
+    }
+
+    setProtocol(result.protocol);
     setSubmitted(true);
-  };
+
+  } catch (error) {
+    setSubmitError(
+      error instanceof Error
+        ? error.message
+        : 'Não foi possível registrar a manifestação.'
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#FAFAFC] text-[#0B0F19] pt-28 pb-20 px-6">
