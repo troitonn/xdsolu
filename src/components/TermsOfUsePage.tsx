@@ -301,6 +301,7 @@ export const TermsOfUsePage: React.FC<TermsOfUsePageProps> = ({
               <span className="w-7 h-7 rounded-lg bg-[#A3192E]/10 text-[#A3192E] font-mono text-[13px] flex items-center justify-center shrink-0">10</span>
               <span>PROPRIEDADE INTELECTUAL</span>
             </h2>
+            
             <p>
               <strong>10.1.</strong> Todos os elementos da Plataforma, incluindo marca, logotipo, design, textos, imagens e software, são de titularidade da XD Capital ou licenciados por terceiros, sendo vedada a sua reprodução, distribuição ou uso sem autorização expressa.
             </p>
