@@ -12,7 +12,11 @@ export default {
       if (url.pathname === "/api/contact" && request.method === "POST") {
         return handleContact(request, env);
       }
-      
+
+    // Endpoint LGPD / Direitos do Titular
+    if (url.pathname === "/api/lgpd" && request.method === "POST") {
+      return handleLgpd(request, env);
+    }
       // Endpoint de abertura de conta
       if (
         url.pathname === "/api/account-opening" &&
@@ -177,6 +181,241 @@ async function handleContact(
   }
 }
 
+
+
+
+async function handleLgpd(
+  request: Request,
+  env: Env
+): Promise<Response> {
+  try {
+    const data = await request.json<{
+      requestType?: string;
+      name?: string;
+      document?: string;
+      email?: string;
+      phone?: string;
+      description?: string;
+    }>();
+
+    const {
+      requestType,
+      name,
+      document,
+      email,
+      phone,
+      description,
+    } = data;
+
+    // Validação dos campos obrigatórios
+    if (
+      !name?.trim() ||
+      !document?.trim() ||
+      !email?.trim() ||
+      !description?.trim()
+    ) {
+      return json(
+        {
+          success: false,
+          error: "Preencha os campos obrigatórios.",
+        },
+        400
+      );
+    }
+
+    // Validação simples de e-mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email.trim())) {
+      return json(
+        {
+          success: false,
+          error: "Informe um e-mail válido.",
+        },
+        400
+      );
+    }
+
+    // Gera protocolo da solicitação LGPD
+    const protocol = `XD-LGPD-${new Date().getFullYear()}-${Math.floor(
+      100000 + Math.random() * 900000
+    )}`;
+
+    // Data/hora oficial do recebimento
+    const submissionDate = new Intl.DateTimeFormat("pt-BR", {
+      dateStyle: "short",
+      timeStyle: "short",
+      timeZone: "America/Sao_Paulo",
+    }).format(new Date());
+
+    const requestTypes: Record<string, string> = {
+      confirmacao:
+        "Confirmação da existência de tratamento de dados",
+      acesso:
+        "Acesso aos meus dados pessoais cadastrados",
+      correcao:
+        "Correção de dados incompletos, inexatos ou desatualizados",
+      anonimizacao:
+        "Anonimização, bloqueio ou eliminação de dados",
+      compartilhamento:
+        "Informações sobre entidades públicas/privadas com quem houve compartilhamento",
+      revogacao:
+        "Revogação do consentimento",
+      duvidas:
+        "Outras dúvidas sobre a Política de Privacidade",
+    };
+
+    const requestTypeLabel =
+      requestTypes[requestType || ""] || requestType || "-";
+
+    // Envia para o Resend
+    const resendResponse = await fetch(
+      "https://api.resend.com/emails",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.API_FORMULARIO}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "XD Capital <noreply@update.xdcapital.com.br>",
+
+          // Destinatário do DPO / Privacidade
+          to: ["dpo@xdcapital.com.br"],
+
+          // Responder diretamente para o titular
+          reply_to: email.trim(),
+
+          subject: `Nova solicitação LGPD — ${protocol}`,
+
+          html: `
+            <div style="
+              font-family: Arial, Helvetica, sans-serif;
+              line-height: 1.6;
+              color: #222;
+              max-width: 700px;
+              margin: 0 auto;
+            ">
+
+              <h2>
+                Nova solicitação de titular — XD Capital
+              </h2>
+
+              <p>
+                Uma nova solicitação relacionada ao exercício de direitos
+                previstos na LGPD foi recebida através do site.
+              </p>
+
+              <hr />
+
+              <h3>Protocolo</h3>
+
+              <p>
+                <strong>${escapeHtml(protocol)}</strong>
+              </p>
+
+              <p>
+                <strong>Data de recebimento:</strong><br />
+                ${escapeHtml(submissionDate)}
+              </p>
+
+              <h3>Tipo de solicitação</h3>
+
+              <p>
+                ${escapeHtml(requestTypeLabel)}
+              </p>
+
+              <h3>Dados do titular</h3>
+
+              <p>
+                <strong>Nome completo:</strong><br />
+                ${escapeHtml(name)}
+              </p>
+
+              <p>
+                <strong>CPF / CNPJ:</strong><br />
+                ${escapeHtml(document)}
+              </p>
+
+              <p>
+                <strong>E-mail:</strong><br />
+                ${escapeHtml(email)}
+              </p>
+
+              <p>
+                <strong>Telefone:</strong><br />
+                ${escapeHtml(phone || "-")}
+              </p>
+
+              <h3>Detalhamento da solicitação</h3>
+
+              <p>
+                ${escapeHtml(description).replace(/\n/g, "<br />")}
+              </p>
+
+              <hr />
+
+              <p>
+                <strong>Canal:</strong> Portal LGPD / DPO
+              </p>
+
+              <p>
+                <strong>Protocolo:</strong>
+                ${escapeHtml(protocol)}
+              </p>
+
+              <p style="color:#666;font-size:13px;">
+                Solicitação recebida através do canal institucional
+                de privacidade da XD Capital.
+              </p>
+
+            </div>
+          `,
+        }),
+      }
+    );
+
+    // Erro do Resend
+    if (!resendResponse.ok) {
+      const error = await resendResponse.text();
+
+      console.error(
+        "Erro Resend — solicitação LGPD:",
+        error
+      );
+
+      return json(
+        {
+          success: false,
+          error: "Não foi possível enviar a solicitação.",
+        },
+        500
+      );
+    }
+
+    // Sucesso
+    return json({
+      success: true,
+      protocol,
+      date: submissionDate,
+      message: "Solicitação enviada com sucesso.",
+    });
+
+  } catch (error) {
+    console.error(
+      "Erro no formulário LGPD:",
+      error
+    );
+
+    return json(
+      {
+        success: false,
+        error: "Erro ao processar a solicitação.",
+      },
+      500
+    );
+  }
+}
 
 
 async function handleAccountOpening(
