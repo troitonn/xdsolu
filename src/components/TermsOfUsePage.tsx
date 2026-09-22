@@ -284,7 +284,7 @@ export const TermsOfUsePage: React.FC<TermsOfUsePageProps> = ({
             </h2>
             <p><strong>9.1.</strong> O usuário poderá contatar a XD Capital pelos seguintes canais:</p>
             <ul className="space-y-1.5 list-none pl-2 text-slate-600">
-              <li><strong>I – E-mail:</strong> <a href="mailto:atendimento@xdcapital.com.br" className="text-[#A3192E] underline">atendimento@xdcapital.com.br</a></li>
+              <li><strong>I – E-mail:</strong> <a href="mailto:contato@xdcapital.com.br" className="text-[#A3192E] underline">contato@xdcapital.com.br</a></li>
               <li><strong>II – WhatsApp/Chat:</strong> (11) 99999-9999 (horário comercial, dias úteis)</li>
             </ul>
             <p className="pt-2">
@@ -338,7 +338,7 @@ export const TermsOfUsePage: React.FC<TermsOfUsePageProps> = ({
         <div className="p-6 rounded-[20px] bg-slate-100 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="text-[15px] font-normal text-slate-900">Dúvidas sobre os Termos de Uso?</div>
-            <div className="text-[13.5px] text-slate-500 font-mono mt-0.5">atendimento@xdcapital.com.br · compliance@xdcapital.com.br</div>
+            <div className="text-[13.5px] text-slate-500 font-mono mt-0.5">contato@xdcapital.com.br · compliance@xdcapital.com.br</div>
           </div>
           <div className="flex items-center gap-3">
             <button
