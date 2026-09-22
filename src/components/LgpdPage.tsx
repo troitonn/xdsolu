@@ -17,10 +17,45 @@ export const LgpdPage: React.FC<LgpdPageProps> = ({ onBackToHome, onOpenContact 
     description: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("/api/lgpd", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        requestType,
+        name: formData.name,
+        document: formData.document,
+        email: formData.email,
+        phone: formData.phone,
+        description: formData.description,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.error || "Não foi possível enviar a solicitação."
+      );
+    }
+
     setSubmitted(true);
-  };
+
+  } catch (error) {
+    console.error("Erro ao enviar solicitação LGPD:", error);
+
+    alert(
+      error instanceof Error
+        ? error.message
+        : "Não foi possível enviar a solicitação."
+    );
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#FAFAFC] text-[#0B0F19] pt-28 pb-20 px-6">
