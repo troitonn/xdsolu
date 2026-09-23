@@ -442,23 +442,6 @@ export const PartnersPage: React.FC<PartnersPageProps> = ({
           <span className="text-slate-600">Parceiros</span>
         </div>
 
-        {/* HERO */}
-        <div className="mb-14">
-          <div className="flex items-center justify-between gap-6 mb-7">
-            <img
-              src="/xd-logo.png"
-              alt="XD Capital"
-              className="h-8 sm:h-9 w-auto object-contain opacity-95"
-              width={157}
-              height={36}
-            />
-
-            <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.15em] text-slate-400">
-              <span className="w-2 h-2 rounded-full bg-[#A3192E]" />
-              Programa de Parceiros
-            </div>
-          </div>
-
           <div className="max-w-[900px]">
             <div className="text-[12px] font-mono uppercase tracking-[0.16em] text-[#A3192E] mb-4">
               PROGRAMA DE PARCEIROS
