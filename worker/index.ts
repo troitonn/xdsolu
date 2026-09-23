@@ -186,7 +186,6 @@ async function handleContact(
     );
   }
 }
-
 async function handleParceiros(
   request: Request,
   env: Env
@@ -425,6 +424,58 @@ async function handleParceiros(
           error: "Informe um estado válido.",
         },
         400
+      );
+    }
+
+    /*
+     * ============================
+     * FUNÇÕES DE FORMATAÇÃO
+     * ============================
+     */
+
+    function formatCNPJServer(value: string): string {
+      const digits = value.replace(/\D/g, "");
+
+      if (digits.length !== 14) {
+        return value;
+      }
+
+      return digits.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+        "$1.$2.$3/$4-$5"
+      );
+    }
+
+    function formatTelefoneServer(value: string): string {
+      const digits = value.replace(/\D/g, "");
+
+      if (digits.length === 11) {
+        return digits.replace(
+          /^(\d{2})(\d{5})(\d{4})$/,
+          "($1) $2-$3"
+        );
+      }
+
+      if (digits.length === 10) {
+        return digits.replace(
+          /^(\d{2})(\d{4})(\d{4})$/,
+          "($1) $2-$3"
+        );
+      }
+
+      return value;
+    }
+
+    function formatCEPServer(value: string): string {
+      const digits = value.replace(/\D/g, "");
+
+      if (digits.length !== 8) {
+        return value;
+      }
+
+      return digits.replace(
+        /^(\d{5})(\d{3})$/,
+        "$1-$2"
       );
     }
 
@@ -798,8 +849,6 @@ async function handleParceiros(
     );
   }
 }
-
-
 
 async function handleEthics(request: Request, env: Env): Promise<Response> {
   try {
