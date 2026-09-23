@@ -486,7 +486,7 @@ export const PartnersPage: React.FC<PartnersPageProps> = ({
 
 
         {/* INTRO CARD */}
-        <div className="bg-white border border-slate-200/90 rounded-[28px] p-7 sm:p-12 shadow-sm mb-12">
+        <div className="bg-white border border-slate-200/90 rounded-[28px] p-7 sm:p-12 shadow-sm mt-12 mb-12">
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center">
             <div>
               <div className="text-[12px] font-mono uppercase tracking-[0.16em] text-[#A3192E] mb-3">
