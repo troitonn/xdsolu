@@ -18,6 +18,7 @@ import { CodeOfEthicsPage } from './components/CodeOfEthicsPage';
 import { PldFtPage } from './components/PldFtPage';
 import { AboutPage } from './components/AboutPage';
 import { CookieConsent } from './components/CookieConsent';
+import { PartnersPage } from './components/PartnersPage';
 
 export type AppView =
   | 'home'
@@ -28,6 +29,7 @@ export type AppView =
   | 'ouvidoria'
   | 'pld-ft'
   | 'sobre-a-xd'
+  | 'parceiros'
   | 'abrir-conta';
 
 export default function App() {
@@ -65,6 +67,9 @@ export default function App() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === '#sobre-a-xd' || hash === '#sobre' || hash === '#historia') {
         setCurrentView('sobre-a-xd');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#parceiros' || hash === '#seja-um-parceiro') {
+        setCurrentView('parceiros');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === '#xd-pay' || hash === '#maquininha') {
         setCurrentView('home');
