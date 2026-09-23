@@ -173,6 +173,14 @@ export const Footer: React.FC<FooterProps> = ({ onSelectSolution, onOpenContact,
                   {t('nav.about')}
                 </button>
               </li>
+                            <li>
+                <button
+                  onClick={() => onNavigateView('parceiros')}
+                  className="hover:text-[#0B0F19] hover:underline transition-colors text-left cursor-pointer"
+                >
+                  Seja um Parceiro
+                </button>
+              </li>
             </ul>
           </div>
 
