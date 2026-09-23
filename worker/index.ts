@@ -12,7 +12,10 @@ export default {
       if (url.pathname === "/api/contact" && request.method === "POST") {
         return handleContact(request, env);
       }
-
+// Endpoint de cadastro de parceiros
+if (url.pathname === "/api/parceiros" && request.method === "POST") {
+  return handleParceiros(request, env);
+}
     if (url.pathname === "/api/ethics" && request.method === "POST") {
   return handleEthics(request, env);
 }
@@ -178,6 +181,618 @@ async function handleContact(
       {
         success: false,
         error: "Erro ao processar o formulário.",
+      },
+      500
+    );
+  }
+}
+
+async function handleParceiros(
+  request: Request,
+  env: Env
+): Promise<Response> {
+  try {
+    const data = await request.json<{
+      nome?: string;
+      razaoSocial?: string;
+      cnpj?: string;
+      telefone?: string;
+      endereco?: string;
+      numero?: string;
+      complemento?: string;
+      uf?: string;
+      cidade?: string;
+      cep?: string;
+      pais?: string;
+      consentimento?: boolean;
+    }>();
+
+    const {
+      nome,
+      razaoSocial,
+      cnpj,
+      telefone,
+      endereco,
+      numero,
+      complemento,
+      uf,
+      cidade,
+      cep,
+      pais,
+      consentimento,
+    } = data;
+
+    /*
+     * ============================
+     * VALIDAÇÃO DOS CAMPOS
+     * ============================
+     */
+
+    if (
+      !nome?.trim() ||
+      !razaoSocial?.trim() ||
+      !cnpj?.trim() ||
+      !telefone?.trim() ||
+      !endereco?.trim() ||
+      !numero?.trim() ||
+      !uf?.trim() ||
+      !cidade?.trim() ||
+      !cep?.trim() ||
+      !pais?.trim()
+    ) {
+      return json(
+        {
+          success: false,
+          error: "Preencha todos os campos obrigatórios.",
+        },
+        400
+      );
+    }
+
+    if (!consentimento) {
+      return json(
+        {
+          success: false,
+          error:
+            "É necessário aceitar a Política de Privacidade e o tratamento dos dados.",
+        },
+        400
+      );
+    }
+
+    /*
+     * ============================
+     * LIMPEZA DOS DADOS
+     * ============================
+     */
+
+    const nomeLimpo = nome.trim();
+    const razaoSocialLimpa = razaoSocial.trim();
+    const cnpjLimpo = cnpj.replace(/\D/g, "");
+    const telefoneLimpo = telefone.replace(/\D/g, "");
+    const enderecoLimpo = endereco.trim();
+    const numeroLimpo = numero.trim();
+    const complementoLimpo = complemento?.trim() || "";
+    const ufLimpa = uf.trim().toUpperCase();
+    const cidadeLimpa = cidade.trim();
+    const cepLimpo = cep.replace(/\D/g, "");
+    const paisLimpo = pais.trim();
+
+    /*
+     * ============================
+     * LIMITES DE SEGURANÇA
+     * ============================
+     */
+
+    if (nomeLimpo.length > 100) {
+      return json(
+        {
+          success: false,
+          error: "O nome deve possuir no máximo 100 caracteres.",
+        },
+        400
+      );
+    }
+
+    if (razaoSocialLimpa.length > 150) {
+      return json(
+        {
+          success: false,
+          error: "A razão social deve possuir no máximo 150 caracteres.",
+        },
+        400
+      );
+    }
+
+    if (enderecoLimpo.length > 100) {
+      return json(
+        {
+          success: false,
+          error: "O endereço deve possuir no máximo 100 caracteres.",
+        },
+        400
+      );
+    }
+
+    if (complementoLimpo.length > 100) {
+      return json(
+        {
+          success: false,
+          error: "O complemento deve possuir no máximo 100 caracteres.",
+        },
+        400
+      );
+    }
+
+    if (cidadeLimpa.length > 80) {
+      return json(
+        {
+          success: false,
+          error: "A cidade deve possuir no máximo 80 caracteres.",
+        },
+        400
+      );
+    }
+
+    /*
+     * ============================
+     * VALIDAÇÃO CNPJ
+     * ============================
+     */
+
+    if (!validarCNPJ(cnpjLimpo)) {
+      return json(
+        {
+          success: false,
+          error: "Informe um CNPJ válido.",
+        },
+        400
+      );
+    }
+
+    /*
+     * ============================
+     * VALIDAÇÃO TELEFONE
+     * ============================
+     */
+
+    if (telefoneLimpo.length < 10 || telefoneLimpo.length > 11) {
+      return json(
+        {
+          success: false,
+          error: "Informe um telefone válido.",
+        },
+        400
+      );
+    }
+
+    /*
+     * ============================
+     * VALIDAÇÃO CEP
+     * ============================
+     */
+
+    if (cepLimpo.length !== 8) {
+      return json(
+        {
+          success: false,
+          error: "Informe um CEP válido.",
+        },
+        400
+      );
+    }
+
+    /*
+     * ============================
+     * VALIDAÇÃO UF
+     * ============================
+     */
+
+    const estadosValidos = [
+      "AC",
+      "AL",
+      "AP",
+      "AM",
+      "BA",
+      "CE",
+      "DF",
+      "ES",
+      "GO",
+      "MA",
+      "MT",
+      "MS",
+      "MG",
+      "PA",
+      "PB",
+      "PR",
+      "PE",
+      "PI",
+      "RJ",
+      "RN",
+      "RS",
+      "RO",
+      "RR",
+      "SC",
+      "SP",
+      "SE",
+      "TO",
+    ];
+
+    if (!estadosValidos.includes(ufLimpa)) {
+      return json(
+        {
+          success: false,
+          error: "Informe um estado válido.",
+        },
+        400
+      );
+    }
+
+    /*
+     * ============================
+     * DATA / PROTOCOLO
+     * ============================
+     */
+
+    const protocol = `XD-PAR-${new Date().getFullYear()}-${Math.floor(
+      100000 + Math.random() * 900000
+    )}`;
+
+    const submissionDate = new Intl.DateTimeFormat("pt-BR", {
+      dateStyle: "short",
+      timeStyle: "short",
+      timeZone: "America/Sao_Paulo",
+    }).format(new Date());
+
+    /*
+     * ============================
+     * E-MAIL
+     * ============================
+     */
+
+    const html = `
+      <!DOCTYPE html>
+      <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8" />
+          <title>Novo parceiro — ${escapeHtml(protocol)}</title>
+        </head>
+
+        <body
+          style="
+            margin:0;
+            padding:0;
+            background:#f5f6f8;
+            font-family:Arial,Helvetica,sans-serif;
+            color:#172033;
+          "
+        >
+
+          <div
+            style="
+              max-width:720px;
+              margin:40px auto;
+              background:#ffffff;
+              border:1px solid #e5e7eb;
+              border-radius:16px;
+              overflow:hidden;
+            "
+          >
+
+            <div
+              style="
+                padding:30px 32px;
+                background:#0b0f19;
+                color:#ffffff;
+              "
+            >
+              <div
+                style="
+                  font-size:12px;
+                  letter-spacing:1.5px;
+                  text-transform:uppercase;
+                  color:#cbd5e1;
+                  margin-bottom:10px;
+                "
+              >
+                XD Capital · Programa de Parceiros
+              </div>
+
+              <h1
+                style="
+                  margin:0;
+                  font-size:26px;
+                  font-weight:500;
+                "
+              >
+                Nova inscrição de parceiro
+              </h1>
+            </div>
+
+            <div style="padding:32px;">
+
+              <div
+                style="
+                  padding:18px;
+                  background:#f8fafc;
+                  border:1px solid #e2e8f0;
+                  border-radius:12px;
+                  margin-bottom:28px;
+                "
+              >
+
+                <div
+                  style="
+                    font-size:12px;
+                    color:#64748b;
+                    text-transform:uppercase;
+                    letter-spacing:1px;
+                    margin-bottom:6px;
+                  "
+                >
+                  Protocolo
+                </div>
+
+                <div
+                  style="
+                    font-size:22px;
+                    font-weight:700;
+                    color:#a3192e;
+                    font-family:monospace;
+                  "
+                >
+                  ${escapeHtml(protocol)}
+                </div>
+
+                <div
+                  style="
+                    margin-top:8px;
+                    font-size:13px;
+                    color:#64748b;
+                  "
+                >
+                  Recebido em ${escapeHtml(submissionDate)}
+                </div>
+
+              </div>
+
+              <h2 style="font-size:18px;">
+                Dados do responsável
+              </h2>
+
+              <table
+                style="
+                  width:100%;
+                  border-collapse:collapse;
+                  font-size:14px;
+                "
+              >
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;width:180px;">
+                    Nome
+                  </td>
+
+                  <td style="padding:10px 0;font-weight:600;">
+                    ${escapeHtml(nomeLimpo)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    Razão Social
+                  </td>
+
+                  <td style="padding:10px 0;font-weight:600;">
+                    ${escapeHtml(razaoSocialLimpa)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    CNPJ
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(formatCNPJServer(cnpjLimpo))}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    Telefone
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(formatTelefoneServer(telefoneLimpo))}
+                  </td>
+                </tr>
+
+              </table>
+
+              <h2
+                style="
+                  font-size:18px;
+                  margin-top:32px;
+                "
+              >
+                Endereço
+              </h2>
+
+              <table
+                style="
+                  width:100%;
+                  border-collapse:collapse;
+                  font-size:14px;
+                "
+              >
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;width:180px;">
+                    Endereço
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(enderecoLimpo)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    Número
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(numeroLimpo)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    Complemento
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(complementoLimpo || "-")}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    Cidade
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(cidadeLimpa)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    UF
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(ufLimpa)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    CEP
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(formatCEPServer(cepLimpo))}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:10px 0;color:#64748b;">
+                    País
+                  </td>
+
+                  <td style="padding:10px 0;">
+                    ${escapeHtml(paisLimpo)}
+                  </td>
+                </tr>
+
+              </table>
+
+              <div
+                style="
+                  margin-top:32px;
+                  padding:16px;
+                  background:#f8fafc;
+                  border:1px solid #e2e8f0;
+                  border-radius:10px;
+                  font-size:13px;
+                  color:#64748b;
+                "
+              >
+                O interessado declarou ciência e consentimento
+                para o tratamento dos dados enviados através do
+                formulário de inscrição de parceiros.
+              </div>
+
+            </div>
+          </div>
+
+        </body>
+      </html>
+    `;
+
+    /*
+     * ============================
+     * ENVIO PELO RESEND
+     * ============================
+     */
+
+    const resendResponse = await fetch(
+      "https://api.resend.com/emails",
+      {
+        method: "POST",
+
+        headers: {
+          Authorization: `Bearer ${env.API_FORMULARIO}`,
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          from: "XD Capital <noreply@update.xdcapital.com.br>",
+
+          to: ["contato@xdcapital.com.br"],
+
+          subject: `Novo parceiro XD Capital — ${protocol}`,
+
+          html,
+        }),
+      }
+    );
+
+    if (!resendResponse.ok) {
+      const error = await resendResponse.text();
+
+      console.error(
+        "Erro Resend — cadastro de parceiro:",
+        error
+      );
+
+      return json(
+        {
+          success: false,
+          error:
+            "Não foi possível enviar o cadastro. Tente novamente.",
+        },
+        502
+      );
+    }
+
+    /*
+     * ============================
+     * SUCESSO
+     * ============================
+     */
+
+    return json({
+      success: true,
+      protocol,
+      date: submissionDate,
+      message:
+        "Inscrição recebida com sucesso! Entraremos em contato em breve.",
+    });
+
+  } catch (error) {
+    console.error(
+      "Erro no endpoint /api/parceiros:",
+      error
+    );
+
+    return json(
+      {
+        success: false,
+        error:
+          "Erro interno ao processar o cadastro.",
       },
       500
     );
