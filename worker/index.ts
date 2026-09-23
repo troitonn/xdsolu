@@ -186,6 +186,8 @@ async function handleContact(
     );
   }
 }
+
+
 async function handleParceiros(
   request: Request,
   env: Env
@@ -222,9 +224,9 @@ async function handleParceiros(
     } = data;
 
     /*
-     * ============================
+     * ==============================
      * VALIDAÇÃO DOS CAMPOS
-     * ============================
+     * ==============================
      */
 
     if (
@@ -253,90 +255,26 @@ async function handleParceiros(
         {
           success: false,
           error:
-            "É necessário aceitar a Política de Privacidade e o tratamento dos dados.",
+            "É necessário aceitar a Política de Privacidade para concluir a inscrição.",
         },
         400
       );
     }
 
     /*
-     * ============================
+     * ==============================
      * LIMPEZA DOS DADOS
-     * ============================
+     * ==============================
      */
 
-    const nomeLimpo = nome.trim();
-    const razaoSocialLimpa = razaoSocial.trim();
     const cnpjLimpo = cnpj.replace(/\D/g, "");
     const telefoneLimpo = telefone.replace(/\D/g, "");
-    const enderecoLimpo = endereco.trim();
-    const numeroLimpo = numero.trim();
-    const complementoLimpo = complemento?.trim() || "";
-    const ufLimpa = uf.trim().toUpperCase();
-    const cidadeLimpa = cidade.trim();
     const cepLimpo = cep.replace(/\D/g, "");
-    const paisLimpo = pais.trim();
 
     /*
-     * ============================
-     * LIMITES DE SEGURANÇA
-     * ============================
-     */
-
-    if (nomeLimpo.length > 100) {
-      return json(
-        {
-          success: false,
-          error: "O nome deve possuir no máximo 100 caracteres.",
-        },
-        400
-      );
-    }
-
-    if (razaoSocialLimpa.length > 150) {
-      return json(
-        {
-          success: false,
-          error: "A razão social deve possuir no máximo 150 caracteres.",
-        },
-        400
-      );
-    }
-
-    if (enderecoLimpo.length > 100) {
-      return json(
-        {
-          success: false,
-          error: "O endereço deve possuir no máximo 100 caracteres.",
-        },
-        400
-      );
-    }
-
-    if (complementoLimpo.length > 100) {
-      return json(
-        {
-          success: false,
-          error: "O complemento deve possuir no máximo 100 caracteres.",
-        },
-        400
-      );
-    }
-
-    if (cidadeLimpa.length > 80) {
-      return json(
-        {
-          success: false,
-          error: "A cidade deve possuir no máximo 80 caracteres.",
-        },
-        400
-      );
-    }
-
-    /*
-     * ============================
-     * VALIDAÇÃO CNPJ
-     * ============================
+     * ==============================
+     * VALIDAÇÃO DO CNPJ
+     * ==============================
      */
 
     if (!validarCNPJ(cnpjLimpo)) {
@@ -350,12 +288,15 @@ async function handleParceiros(
     }
 
     /*
-     * ============================
-     * VALIDAÇÃO TELEFONE
-     * ============================
+     * ==============================
+     * VALIDAÇÃO DO TELEFONE
+     * ==============================
      */
 
-    if (telefoneLimpo.length < 10 || telefoneLimpo.length > 11) {
+    if (
+      telefoneLimpo.length !== 10 &&
+      telefoneLimpo.length !== 11
+    ) {
       return json(
         {
           success: false,
@@ -366,9 +307,9 @@ async function handleParceiros(
     }
 
     /*
-     * ============================
-     * VALIDAÇÃO CEP
-     * ============================
+     * ==============================
+     * VALIDAÇÃO DO CEP
+     * ==============================
      */
 
     if (cepLimpo.length !== 8) {
@@ -382,9 +323,9 @@ async function handleParceiros(
     }
 
     /*
-     * ============================
-     * VALIDAÇÃO UF
-     * ============================
+     * ==============================
+     * VALIDAÇÃO DA UF
+     * ==============================
      */
 
     const estadosValidos = [
@@ -417,7 +358,7 @@ async function handleParceiros(
       "TO",
     ];
 
-    if (!estadosValidos.includes(ufLimpa)) {
+    if (!estadosValidos.includes(uf.trim().toUpperCase())) {
       return json(
         {
           success: false,
@@ -428,66 +369,20 @@ async function handleParceiros(
     }
 
     /*
-     * ============================
-     * FUNÇÕES DE FORMATAÇÃO
-     * ============================
-     */
-
-    function formatCNPJServer(value: string): string {
-      const digits = value.replace(/\D/g, "");
-
-      if (digits.length !== 14) {
-        return value;
-      }
-
-      return digits.replace(
-        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
-        "$1.$2.$3/$4-$5"
-      );
-    }
-
-    function formatTelefoneServer(value: string): string {
-      const digits = value.replace(/\D/g, "");
-
-      if (digits.length === 11) {
-        return digits.replace(
-          /^(\d{2})(\d{5})(\d{4})$/,
-          "($1) $2-$3"
-        );
-      }
-
-      if (digits.length === 10) {
-        return digits.replace(
-          /^(\d{2})(\d{4})(\d{4})$/,
-          "($1) $2-$3"
-        );
-      }
-
-      return value;
-    }
-
-    function formatCEPServer(value: string): string {
-      const digits = value.replace(/\D/g, "");
-
-      if (digits.length !== 8) {
-        return value;
-      }
-
-      return digits.replace(
-        /^(\d{5})(\d{3})$/,
-        "$1-$2"
-      );
-    }
-
-    /*
-     * ============================
-     * DATA / PROTOCOLO
-     * ============================
+     * ==============================
+     * PROTOCOLO
+     * ==============================
      */
 
     const protocol = `XD-PAR-${new Date().getFullYear()}-${Math.floor(
       100000 + Math.random() * 900000
     )}`;
+
+    /*
+     * ==============================
+     * DATA DA INSCRIÇÃO
+     * ==============================
+     */
 
     const submissionDate = new Intl.DateTimeFormat("pt-BR", {
       dateStyle: "short",
@@ -496,9 +391,22 @@ async function handleParceiros(
     }).format(new Date());
 
     /*
-     * ============================
-     * E-MAIL
-     * ============================
+     * ==============================
+     * DADOS FORMATADOS
+     * ==============================
+     */
+
+    const cnpjFormatado = formatCNPJServer(cnpjLimpo);
+
+    const telefoneFormatado =
+      formatTelefoneServer(telefoneLimpo);
+
+    const cepFormatado = formatCEPServer(cepLimpo);
+
+    /*
+     * ==============================
+     * HTML DO E-MAIL
+     * ==============================
      */
 
     const html = `
@@ -506,90 +414,93 @@ async function handleParceiros(
       <html lang="pt-BR">
         <head>
           <meta charset="UTF-8" />
-          <title>Novo parceiro — ${escapeHtml(protocol)}</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Novo parceiro XD Capital</title>
         </head>
 
         <body
           style="
-            margin:0;
-            padding:0;
-            background:#f5f6f8;
-            font-family:Arial,Helvetica,sans-serif;
-            color:#172033;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f7;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #0B0F19;
           "
         >
 
           <div
             style="
-              max-width:720px;
-              margin:40px auto;
-              background:#ffffff;
-              border:1px solid #e5e7eb;
-              border-radius:16px;
-              overflow:hidden;
+              max-width: 720px;
+              margin: 40px auto;
+              background: #ffffff;
+              border: 1px solid #e5e7eb;
+              border-radius: 16px;
+              overflow: hidden;
             "
           >
 
+            <!-- CABEÇALHO -->
+
             <div
               style="
-                padding:30px 32px;
-                background:#0b0f19;
-                color:#ffffff;
+                background: #0B0F19;
+                padding: 30px 36px;
               "
             >
               <div
                 style="
-                  font-size:12px;
-                  letter-spacing:1.5px;
-                  text-transform:uppercase;
-                  color:#cbd5e1;
-                  margin-bottom:10px;
+                  font-size: 13px;
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  color: #ffffff;
+                  opacity: 0.7;
+                  margin-bottom: 10px;
                 "
               >
-                XD Capital · Programa de Parceiros
+                PROGRAMA DE PARCEIROS
               </div>
 
               <h1
                 style="
-                  margin:0;
-                  font-size:26px;
-                  font-weight:500;
+                  margin: 0;
+                  color: #ffffff;
+                  font-size: 26px;
+                  font-weight: 500;
                 "
               >
                 Nova inscrição de parceiro
               </h1>
             </div>
 
-            <div style="padding:32px;">
+            <!-- CONTEÚDO -->
+
+            <div style="padding: 36px;">
 
               <div
                 style="
-                  padding:18px;
-                  background:#f8fafc;
-                  border:1px solid #e2e8f0;
-                  border-radius:12px;
-                  margin-bottom:28px;
+                  background: #f8f8fa;
+                  border-radius: 12px;
+                  padding: 20px;
+                  margin-bottom: 28px;
                 "
               >
-
                 <div
                   style="
-                    font-size:12px;
-                    color:#64748b;
-                    text-transform:uppercase;
-                    letter-spacing:1px;
-                    margin-bottom:6px;
+                    font-size: 12px;
+                    color: #6b7280;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    margin-bottom: 8px;
                   "
                 >
-                  Protocolo
+                  Protocolo da inscrição
                 </div>
 
                 <div
                   style="
-                    font-size:22px;
-                    font-weight:700;
-                    color:#a3192e;
-                    font-family:monospace;
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #A3192E;
                   "
                 >
                   ${escapeHtml(protocol)}
@@ -597,65 +508,127 @@ async function handleParceiros(
 
                 <div
                   style="
-                    margin-top:8px;
-                    font-size:13px;
-                    color:#64748b;
+                    font-size: 13px;
+                    color: #6b7280;
+                    margin-top: 8px;
                   "
                 >
                   Recebido em ${escapeHtml(submissionDate)}
                 </div>
-
               </div>
 
-              <h2 style="font-size:18px;">
-                Dados do responsável
+              <h2
+                style="
+                  font-size: 18px;
+                  font-weight: 600;
+                  margin: 0 0 18px;
+                  color: #0B0F19;
+                "
+              >
+                Dados da empresa
               </h2>
 
               <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
                 style="
-                  width:100%;
-                  border-collapse:collapse;
-                  font-size:14px;
+                  border-collapse: collapse;
+                  margin-bottom: 30px;
                 "
               >
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;width:180px;">
-                    Nome
-                  </td>
-
-                  <td style="padding:10px 0;font-weight:600;">
-                    ${escapeHtml(nomeLimpo)}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      width: 180px;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     Razão Social
                   </td>
 
-                  <td style="padding:10px 0;font-weight:600;">
-                    ${escapeHtml(razaoSocialLimpa)}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                      font-weight: 600;
+                    "
+                  >
+                    ${escapeHtml(razaoSocial)}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     CNPJ
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(formatCNPJServer(cnpjLimpo))}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(cnpjFormatado)}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
+                    Representante
+                  </td>
+
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(nome)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     Telefone
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(formatTelefoneServer(telefoneLimpo))}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(telefoneFormatado)}
                   </td>
                 </tr>
 
@@ -663,88 +636,182 @@ async function handleParceiros(
 
               <h2
                 style="
-                  font-size:18px;
-                  margin-top:32px;
+                  font-size: 18px;
+                  font-weight: 600;
+                  margin: 0 0 18px;
+                  color: #0B0F19;
                 "
               >
                 Endereço
               </h2>
 
               <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
                 style="
-                  width:100%;
-                  border-collapse:collapse;
-                  font-size:14px;
+                  border-collapse: collapse;
+                  margin-bottom: 30px;
                 "
               >
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;width:180px;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      width: 180px;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     Endereço
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(enderecoLimpo)}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(endereco)}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     Número
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(numeroLimpo)}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(numero)}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     Complemento
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(complementoLimpo || "-")}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(complemento || "-")}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     Cidade
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(cidadeLimpa)}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(cidade)}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
-                    UF
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
+                    Estado
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(ufLimpa)}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(uf.toUpperCase())}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     CEP
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(formatCEPServer(cepLimpo))}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      border-bottom: 1px solid #eeeeee;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(cepFormatado)}
                   </td>
                 </tr>
 
                 <tr>
-                  <td style="padding:10px 0;color:#64748b;">
+                  <td
+                    style="
+                      padding: 10px 0;
+                      color: #6b7280;
+                      font-size: 14px;
+                    "
+                  >
                     País
                   </td>
 
-                  <td style="padding:10px 0;">
-                    ${escapeHtml(paisLimpo)}
+                  <td
+                    style="
+                      padding: 10px 0;
+                      font-size: 14px;
+                    "
+                  >
+                    ${escapeHtml(pais)}
                   </td>
                 </tr>
 
@@ -752,21 +819,36 @@ async function handleParceiros(
 
               <div
                 style="
-                  margin-top:32px;
-                  padding:16px;
-                  background:#f8fafc;
-                  border:1px solid #e2e8f0;
-                  border-radius:10px;
-                  font-size:13px;
-                  color:#64748b;
+                  background: #f8f8fa;
+                  border-radius: 12px;
+                  padding: 18px;
+                  font-size: 13px;
+                  line-height: 1.6;
+                  color: #6b7280;
                 "
               >
-                O interessado declarou ciência e consentimento
-                para o tratamento dos dados enviados através do
-                formulário de inscrição de parceiros.
+                O interessado declarou estar de acordo com o tratamento de
+                seus dados conforme a Política de Privacidade da XD Capital.
               </div>
 
             </div>
+
+            <!-- RODAPÉ -->
+
+            <div
+              style="
+                background: #f8f8fa;
+                padding: 22px 36px;
+                border-top: 1px solid #eeeeee;
+                color: #9ca3af;
+                font-size: 12px;
+                line-height: 1.5;
+              "
+            >
+              Este e-mail foi gerado automaticamente pelo formulário de
+              Programa de Parceiros da XD Capital.
+            </div>
+
           </div>
 
         </body>
@@ -774,9 +856,9 @@ async function handleParceiros(
     `;
 
     /*
-     * ============================
+     * ==============================
      * ENVIO PELO RESEND
-     * ============================
+     * ==============================
      */
 
     const resendResponse = await fetch(
@@ -792,7 +874,9 @@ async function handleParceiros(
         body: JSON.stringify({
           from: "XD Capital <noreply@update.xdcapital.com.br>",
 
-          to: ["contato@xdcapital.com.br"],
+          to: [
+            "contato@xdcapital.com.br",
+          ],
 
           subject: `Novo parceiro XD Capital — ${protocol}`,
 
@@ -801,37 +885,44 @@ async function handleParceiros(
       }
     );
 
+    /*
+     * ==============================
+     * TRATAMENTO DO RESEND
+     * ==============================
+     */
+
     if (!resendResponse.ok) {
-      const error = await resendResponse.text();
+      const resendError = await resendResponse.text();
 
       console.error(
-        "Erro Resend — cadastro de parceiro:",
-        error
+        "Erro ao enviar inscrição de parceiro pelo Resend:",
+        resendResponse.status,
+        resendError
       );
 
       return json(
         {
           success: false,
-          error:
-            "Não foi possível enviar o cadastro. Tente novamente.",
+          error: "Não foi possível enviar a inscrição.",
         },
         502
       );
     }
 
     /*
-     * ============================
+     * ==============================
      * SUCESSO
-     * ============================
+     * ==============================
      */
 
-    return json({
-      success: true,
-      protocol,
-      date: submissionDate,
-      message:
-        "Inscrição recebida com sucesso! Entraremos em contato em breve.",
-    });
+    return json(
+      {
+        success: true,
+        protocol,
+        message: "Inscrição enviada com sucesso.",
+      },
+      200
+    );
 
   } catch (error) {
     console.error(
@@ -842,13 +933,157 @@ async function handleParceiros(
     return json(
       {
         success: false,
-        error:
-          "Erro interno ao processar o cadastro.",
+        error: "Erro interno ao processar o cadastro.",
       },
       500
     );
   }
 }
+
+
+/*
+ * ============================================================
+ * VALIDAÇÃO DE CNPJ
+ * ============================================================
+ */
+
+function validarCNPJ(value: string): boolean {
+  const cnpj = value.replace(/\D/g, "");
+
+  if (cnpj.length !== 14) {
+    return false;
+  }
+
+  /*
+   * Rejeita CNPJs compostos apenas pelo mesmo número.
+   */
+  if (/^(\d)\1{13}$/.test(cnpj)) {
+    return false;
+  }
+
+  /*
+   * Primeiro dígito verificador.
+   */
+  const pesos1 = [
+    5, 4, 3, 2,
+    9, 8, 7, 6,
+    5, 4, 3, 2,
+  ];
+
+  let soma = 0;
+
+  for (let i = 0; i < 12; i++) {
+    soma += Number(cnpj[i]) * pesos1[i];
+  }
+
+  let resto = soma % 11;
+
+  const digito1 =
+    resto < 2
+      ? 0
+      : 11 - resto;
+
+  if (digito1 !== Number(cnpj[12])) {
+    return false;
+  }
+
+  /*
+   * Segundo dígito verificador.
+   */
+  const pesos2 = [
+    6, 5, 4, 3, 2,
+    9, 8, 7, 6,
+    5, 4, 3, 2,
+  ];
+
+  soma = 0;
+
+  for (let i = 0; i < 13; i++) {
+    soma += Number(cnpj[i]) * pesos2[i];
+  }
+
+  resto = soma % 11;
+
+  const digito2 =
+    resto < 2
+      ? 0
+      : 11 - resto;
+
+  if (digito2 !== Number(cnpj[13])) {
+    return false;
+  }
+
+  return true;
+}
+
+
+/*
+ * ============================================================
+ * FORMATAÇÃO DO CNPJ
+ * ============================================================
+ */
+
+function formatCNPJServer(value: string): string {
+  const digits = value.replace(/\D/g, "");
+
+  if (digits.length !== 14) {
+    return value;
+  }
+
+  return digits.replace(
+    /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+    "$1.$2.$3/$4-$5"
+  );
+}
+
+
+/*
+ * ============================================================
+ * FORMATAÇÃO DO TELEFONE
+ * ============================================================
+ */
+
+function formatTelefoneServer(value: string): string {
+  const digits = value.replace(/\D/g, "");
+
+  if (digits.length === 11) {
+    return digits.replace(
+      /^(\d{2})(\d{5})(\d{4})$/,
+      "($1) $2-$3"
+    );
+  }
+
+  if (digits.length === 10) {
+    return digits.replace(
+      /^(\d{2})(\d{4})(\d{4})$/,
+      "($1) $2-$3"
+    );
+  }
+
+  return value;
+}
+
+
+/*
+ * ============================================================
+ * FORMATAÇÃO DO CEP
+ * ============================================================
+ */
+
+function formatCEPServer(value: string): string {
+  const digits = value.replace(/\D/g, "");
+
+  if (digits.length !== 8) {
+    return value;
+  }
+
+  return digits.replace(
+    /^(\d{5})(\d{3})$/,
+    "$1-$2"
+  );
+}
+
+
 
 async function handleEthics(request: Request, env: Env): Promise<Response> {
   try {
