@@ -198,6 +198,13 @@ export default function App() {
           />
         )}
 
+        {currentView === 'parceiros' && (
+  <PartnersPage
+    onBackToHome={handleNavigateHome}
+    onOpenContact={handleOpenContact}
+  />
+)}
+
         {currentView === 'home' && (
           <>
             {/* HERO COM INDICADORES INSTITUCIONAIS EMBUTIDOS */}
