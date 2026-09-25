@@ -503,7 +503,7 @@ export const OpenAccountPage: React.FC<OpenAccountPageProps> = ({
 
               <div>
                 <h1 className="text-[28px] sm:text-[34px] font-bold text-slate-900 tracking-[-0.03em] mb-2 leading-tight">
-                  {isEn ? 'Registration Transmitted Successfully!' : (isEs ? '¡Registro Enviado con Éxito!' : 'Cadastro Enviado com Sucesso!')}
+                  {isEn ? 'Registration Transmitted Successfully!' : (isEs ? '¡Registro Enviado con Éxito!' : 'Cadastro Enviado para Analise!')}
                 </h1>
                 <p className="text-[15px] sm:text-[16px] text-slate-500 max-w-[540px] mx-auto leading-relaxed">
                   {isEn
